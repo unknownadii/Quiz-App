@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
-    android:padding="20dp"
     tools:context=".Fragments.SplashFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +35,6 @@
             android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="The best accurate quiz app for android"
-            android:textColor="@color/white"
             android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +49,26 @@
             android:src="@drawable/quizlogo"
             app:layout_constraintTop_toBottomOf="@+id/tvDetails" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/spinnerBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:layout_constraintEnd_toStartOf="@+id/tvDetails"
+            app:layout_constraintStart_toEndOf="@+id/tvDetails"
+            app:layout_constraintTop_toBottomOf="@+id/quizDesign"
+            >
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="Choose Person"
+                android:inputType="none" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
@@ -62,7 +79,7 @@
             android:text="Login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/quizDesign" />
+            app:layout_constraintTop_toBottomOf="@+id/spinnerBox" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnRegister"
