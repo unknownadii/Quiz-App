@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.aditya.quizapp.Fragments.SplashFragment"
+        android:name="com.aditya.quizapp.fragments.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.aditya.quizapp.Fragments.LoginFragment"
+        android:name="com.aditya.quizapp.fragments.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -30,7 +30,49 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment2"
-        android:name="com.aditya.quizapp.Fragments.RegisterFragment"
+        android:name="com.aditya.quizapp.fragments.RegisterFragment"
         android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment2_to_studentDashboard"
+            app:destination="@id/studentDashboard" />
+        <action
+            android:id="@+id/action_registerFragment2_to_teachersDashboard"
+            app:destination="@id/teachersDashboard" />
     </fragment>
+    <fragment
+        android:id="@+id/teachersDashboard"
+        android:name="com.aditya.quizapp.fragments.TeachersDashboard"
+        android:label="TeachersDashboard" >
+        <action
+            android:id="@+id/action_teachersDashboard_to_addSubFrag"
+            app:destination="@id/addSubFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentDashboard"
+        android:name="com.aditya.quizapp.fragments.StudentDashboard"
+        android:label="fragment_student_dashboard"
+        tools:layout="@layout/fragment_student_dashboard" >
+        <action
+            android:id="@+id/action_studentDashboard_to_studentFragment"
+            app:destination="@id/studentFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/addSubFrag"
+        android:name="com.aditya.quizapp.fragments.AddSubFrag"
+        android:label="fragment_add_sub"
+        tools:layout="@layout/fragment_add_sub" >
+        <action
+            android:id="@+id/action_addSubFrag_to_teacherFragment"
+            app:destination="@id/teacherFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/studentFragment"
+        android:name="com.aditya.quizapp.fragments.StudentFragment"
+        android:label="fragment_student"
+        tools:layout="@layout/fragment_student" />
+    <fragment
+        android:id="@+id/teacherFragment"
+        android:name="com.aditya.quizapp.fragments.TeacherFragment"
+        android:label="fragment_teacher"
+        tools:layout="@layout/fragment_teacher" />
 </navigation>
