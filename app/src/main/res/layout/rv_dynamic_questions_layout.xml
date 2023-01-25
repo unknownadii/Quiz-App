@@ -36,7 +36,7 @@
     -->
 
     <LinearLayout
-        android:id="@+id/llAddNewView"
+        android:id="@+id/rvAddNewView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -58,7 +58,7 @@
         android:text="Add Options"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llAddNewView" />
+        app:layout_constraintTop_toBottomOf="@+id/rvAddNewView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnDeleteQuestion"
