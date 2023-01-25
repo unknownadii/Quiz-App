@@ -27,10 +27,22 @@
             app:destination="@id/splashFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_loginFragment_to_addQuestionsFragment"
+            app:destination="@id/addQuestionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment2"
         android:name="com.aditya.quizapp.Fragments.RegisterFragment"
         android:label="RegisterFragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/addQuestionsFragment"
+        android:name="com.aditya.quizapp.Fragments.AddQuestionsFragment"
+        android:label="fragment_add_questions"
+        tools:layout="@layout/fragment_add_questions" >
+        <action
+            android:id="@+id/action_addQuestionsFragment_self"
+            app:destination="@id/addQuestionsFragment" />
     </fragment>
 </navigation>
