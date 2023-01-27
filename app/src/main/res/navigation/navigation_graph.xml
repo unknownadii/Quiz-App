@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_teachersDashboard_to_addSubFrag"
             app:destination="@id/addSubFrag" />
+        <action
+            android:id="@+id/action_teachersDashboard_to_teacherFragment"
+            app:destination="@id/teacherFragment" />
     </fragment>
     <fragment
         android:id="@+id/studentDashboard"
@@ -69,10 +72,19 @@
         android:id="@+id/studentFragment"
         android:name="com.aditya.quizapp.fragments.StudentFragment"
         android:label="fragment_student"
-        tools:layout="@layout/fragment_student" />
+        tools:layout="@layout/fragment_student" >
+        <action
+            android:id="@+id/action_studentFragment_to_scoreBoard"
+            app:destination="@id/scoreBoard" />
+    </fragment>
     <fragment
         android:id="@+id/teacherFragment"
         android:name="com.aditya.quizapp.fragments.TeacherFragment"
         android:label="fragment_teacher"
         tools:layout="@layout/fragment_teacher" />
+    <fragment
+        android:id="@+id/scoreBoard"
+        android:name="com.aditya.quizapp.ScoreBoard"
+        android:label="fragment_score_board"
+        tools:layout="@layout/fragment_score_board" />
 </navigation>
