@@ -1,4 +1,4 @@
-package com.aditya.quizapp.Fragments
+package com.aditya.quizapp.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.aditya.quizapp.R
 import com.aditya.quizapp.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
