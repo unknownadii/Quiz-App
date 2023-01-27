@@ -1,15 +1,17 @@
-package com.aditya.quizapp.dataModel
+package com.aditya.quizapp.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
+import com.aditya.quizapp.dataModel.DynamicOptionsDataModel
 
 class TeachersOptionsAdapter(
     private val click: performQuestionsClick,
-    private val oList: ArrayList<DynamicOptionsDataModel>
+    private val oList: ArrayList<DynamicOptionsDataModel>, private val parentPosition: Int
 ) :
     RecyclerView.Adapter<TeachersOptionsAdapter.ViewHolder>() {
 
@@ -26,17 +28,18 @@ class TeachersOptionsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = oList[position]
         holder.deleteBtn.setOnClickListener {
-            click.deleteOption(position)
+            click.deleteOption(holder.adapterPosition, parentPosition)
         }
-
+        holder.etOption.setText("${holder.adapterPosition}")
     }
 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val deleteBtn: ImageView = itemView.findViewById(R.id.btnDeleteOptions)
+        val deleteBtn: ImageView = ItemView.findViewById(R.id.btnDeleteOptions)
+        val etOption: AppCompatEditText = ItemView.findViewById(R.id.etAddOptions)
     }
 
     interface performQuestionsClick {
-        fun deleteOption(position: Int)
+        fun deleteOption(childPosition: Int, parentPosition: Int)
     }
 
 }
