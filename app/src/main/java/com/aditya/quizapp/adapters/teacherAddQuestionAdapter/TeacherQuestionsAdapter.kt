@@ -1,4 +1,4 @@
-package com.aditya.quizapp.adapter
+package com.aditya.quizapp.adapters.teacherAddQuestionAdapter
 
 import android.view.LayoutInflater
 import android.view.View

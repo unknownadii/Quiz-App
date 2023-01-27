@@ -1,6 +1,7 @@
 package com.example.quizapplication.api
 
-import com.example.quizapplication.models.LoginRequest
+import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
+import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.example.quizapplication.models.StudentDashboard
 import com.example.quizapplication.models.UserRequest
 import com.example.quizapplication.models.UserResponse
@@ -11,11 +12,11 @@ import retrofit2.http.POST
 
 interface UserApi {
     @POST("/register/")
-    suspend fun signup(@Body userRequest: UserRequest):Response<UserResponse>
+    suspend fun signUp(@Body userRequest: UserRequest): Response<UserResponse>
 
     @POST("/login/")
-    suspend fun signin(@Body loginRequest: LoginRequest):Response<UserResponse>
+    suspend fun signIn(@Body loginRequest: RequestAuthenticationDataModel): Response<AuthenticationResponseDataModel>
 
     @GET("/studentDashboard/")
-    suspend fun studentDashboard():Response<StudentDashboard>
+    suspend fun studentDashboard(): Response<StudentDashboard>
 }
