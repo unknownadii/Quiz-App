@@ -1,6 +1,6 @@
-package com.example.quizapplication.models
+package com.aditya.quizapp.models.loginAndRegister.request
 
-data class UserRequest(
+data class UserRegisterRequest(
     val contact: String,
     val dob: String,
     val email: String,

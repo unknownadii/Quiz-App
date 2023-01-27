@@ -12,10 +12,10 @@ import com.aditya.quizapp.databinding.FragmentStudentBinding
 
 
 class StudentDashboard : Fragment() {
-    private var binding : FragmentStudentBinding? = null
+    private var binding: FragmentStudentBinding? = null
 
     private var adapter = StudentDashboardAdapter()
-    private lateinit var layoutManager :  RecyclerView.LayoutManager
+    private lateinit var layoutManager: RecyclerView.LayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,9 +23,9 @@ class StudentDashboard : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        layoutManager = GridLayoutManager(context, 2)
-        binding = FragmentStudentBinding.inflate(layoutInflater)
-        binding?.recyclerview?.adapter = adapter
+//        layoutManager = GridLayoutManager(context, 2)
+//        binding = FragmentStudentBinding.inflate(layoutInflater)
+//        binding?.recyclerview?.adapter = adapter
         return binding?.root
     }
 

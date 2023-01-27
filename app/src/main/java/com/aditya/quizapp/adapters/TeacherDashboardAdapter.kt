@@ -21,7 +21,7 @@ class TeacherDashboardAdapter: RecyclerView.Adapter<TeacherDashboardAdapter.Teac
     override fun onBindViewHolder(holder: TeacherViewHolder, position: Int) {
         holder.textView.text
         holder.btnViewQuestion.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_teachersDashboard_to_teacherFragment)
+           // Navigation.findNavController(it).navigate(R.id.action_teachersDashboard_to_teacherFragment)
         }
         holder.btnAddQuestion.setOnClickListener {  }
     }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.ViewModelFactoryDsl
 import androidx.navigation.fragment.findNavController
@@ -18,7 +19,6 @@ import com.example.quizapplication.retrofit.RetrofitHelper
 import com.example.quizapplication.viewModels.AuthViewModel
 import com.example.quizapplication.viewModels.AuthViewModelFactory
 import com.google.android.material.snackbar.Snackbar
-
 
 class LoginFragment : Fragment() {
 
@@ -43,24 +43,14 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             login()
-            findNavController().navigate(R.id.action_loginFragment_to_addQuestionsFragment)
+            // findNavController().navigate(R.id.action_loginFragment_to_addQuestionsFragment)
         }
+        setUpLoginObserver()
         return binding.root
     }
 
     private fun login() {
-        val result = viewModel.loginUser(RequestAuthenticationDataModel("aditya@gmail.com", "1234"))
-        viewModel.userLoginResponseLiveData.observe(requireActivity()) {
-            if (it != null) {
-                Log.d("LoginResponse", it.tokens.toString())
-            } else {
-                Snackbar.make(
-                    binding.root,
-                    "Some Went Wrong",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
+        viewModel.loginUser(RequestAuthenticationDataModel("aditya12@gmail.com", "1234"))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,5 +64,18 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_splashFragment)
         }
     }
-
+    private fun setUpLoginObserver() {
+        viewModel.userLoginResponseLiveData.observe(requireActivity()) {
+            if (it != null) {
+                Log.d("Aditya", it.tokens.toString())
+                Toast.makeText(requireActivity(), it.tokens.access, Toast.LENGTH_SHORT).show()
+            } else {
+                Snackbar.make(
+                    binding.root,
+                    "Some Went Wrong",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 }
