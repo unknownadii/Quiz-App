@@ -21,7 +21,7 @@ class TeachersDashboard : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentTeachersDashboardBinding.inflate(layoutInflater)
         binding?.textView8?.setOnClickListener{
-            Navigation.findNavController(it).navigate(R.id.action_teachersDashboard_to_addSubFrag)
+            //Navigation.findNavController(it).navigate(R.id.action_teachersDashboard_to_addSubFrag)
         }
         binding?.subjectslist?.adapter = adapter
         return binding?.root

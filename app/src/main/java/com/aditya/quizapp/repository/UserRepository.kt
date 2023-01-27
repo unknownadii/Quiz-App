@@ -5,33 +5,26 @@ import androidx.lifecycle.MutableLiveData
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.example.quizapplication.api.UserApi
-import com.example.quizapplication.models.LoginRequest
-import com.example.quizapplication.models.UserRequest
-import com.example.quizapplication.models.UserResponse
-import com.example.quizapplication.retrofit.NetworkResult
+import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 
 class UserRepository(private val userApi: UserApi) {
 
 
-   private val _userResponseLiveData = MutableLiveData<NetworkResult<UserResponse>>()
-    val userResponseLiveData: LiveData<NetworkResult<UserResponse>>
-        get() = _userResponseLiveData
+    private val _userRegisterResponseLiveData = MutableLiveData<AuthenticationResponseDataModel?>()
+    val userRegisterResponseLiveData: LiveData<AuthenticationResponseDataModel?>
+        get() = _userRegisterResponseLiveData
 
-   private val _userLoginResponseLiveData = MutableLiveData<AuthenticationResponseDataModel?>()
+    private val _userLoginResponseLiveData = MutableLiveData<AuthenticationResponseDataModel?>()
     val userLoginResponseLiveData: LiveData<AuthenticationResponseDataModel?>
         get() = _userLoginResponseLiveData
 
 
-    suspend fun userResister(userRequest: UserRequest) {
-        val response = userApi.signUp(userRequest)
-
-        if (response.isSuccessful && response.body() != null) {
-            _userResponseLiveData.postValue(NetworkResult.Success(response.body()!!))
-        } else if (response.errorBody() != null) {
-            _userResponseLiveData.postValue(NetworkResult.Error("something went wrong"))
+    suspend fun userResister(userRequest: UserRegisterRequest) {
+        val result = userApi.signUp(userRequest)
+        if (result.isSuccessful && result.body() != null) {
+            _userRegisterResponseLiveData?.postValue(result.body())
         } else {
-            _userResponseLiveData.postValue(NetworkResult.Error("something went wrong"))
-
+            _userRegisterResponseLiveData?.postValue(null)
         }
 
 
