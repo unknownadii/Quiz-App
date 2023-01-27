@@ -57,7 +57,6 @@ class SplashFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onResume() {
         super.onResume()
         Log.d("AdityaClicked", "Clicked")

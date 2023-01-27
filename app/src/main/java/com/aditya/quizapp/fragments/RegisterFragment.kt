@@ -18,11 +18,9 @@ class RegisterFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentRegisterBinding.inflate(layoutInflater)
-
         val text = arguments?.getString("PersonType")
         Log.d("AdityaClickedRegister",text.toString())
         binding.appLogo.text = "$text Register"
-
         return binding.root
     }
 

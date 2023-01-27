@@ -25,9 +25,11 @@ class LoginFragment : Fragment() {
         Log.d("AdityaClickedRegister",text.toString())
         binding.appLogo.text = "$text Login"
 
+        binding.btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_addQuestionsFragment)
+        }
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
