@@ -3,6 +3,7 @@ package com.aditya.quizapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.dataModel.DynamicQuestionsDataModel
 
@@ -20,9 +21,12 @@ class TeacherQuestionsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = qList[position]
+
         holder.btnDeleteQuestion.setOnClickListener {
-            click.deleteQuestion(position)
+            click.deleteQuestion(holder.adapterPosition)
         }
+
+        holder.etQuestion.setText("${holder.adapterPosition}")
     }
 
     override fun getItemCount(): Int {
@@ -31,10 +35,15 @@ class TeacherQuestionsAdapter(
 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
         val btnDeleteQuestion: androidx.appcompat.widget.AppCompatButton =
-            itemView.findViewById(R.id.btnDeleteQuestion)
+            ItemView.findViewById(R.id.btnDeleteQuestion)
+        val btnAddOption: androidx.appcompat.widget.AppCompatButton =
+            ItemView.findViewById(R.id.btnAddOptionQuestions)
+
+        val etQuestion: AppCompatEditText = ItemView.findViewById(R.id.et_register_email)
     }
 
     interface performClick {
         fun deleteQuestion(position: Int)
+        fun addOption()
     }
 }

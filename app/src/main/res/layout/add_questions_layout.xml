@@ -63,7 +63,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAddOption"
+            android:id="@+id/btnAddOptionQuestions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -85,6 +85,6 @@
             android:padding="10dp"
             android:text="Delete Question"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnAddOption" />
+            app:layout_constraintTop_toBottomOf="@+id/btnAddOptionQuestions" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
