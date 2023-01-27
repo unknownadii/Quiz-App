@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/button_frame"
-            android:drawableRight="@drawable/ic_add"
+            android:drawableEnd="@drawable/ic_add"
             android:padding="10dp"
             android:text="Add New Question"
             app:layout_constraintEnd_toEndOf="parent"
