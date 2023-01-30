@@ -13,9 +13,6 @@
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_splashFragment_to_registerFragment2"
-            app:destination="@id/registerFragment2" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -30,6 +27,9 @@
         <action
             android:id="@+id/action_loginFragment_to_addQuestionsFragment"
             app:destination="@id/addQuestionsFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_studentDashboard"
+            app:destination="@id/studentDashboard" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment2"
@@ -39,9 +39,19 @@
         android:id="@+id/addQuestionsFragment"
         android:name="com.aditya.quizapp.Fragments.AddQuestionsFragment"
         android:label="fragment_add_questions"
-        tools:layout="@layout/fragment_add_questions">
+        tools:layout="@layout/fragment_add_questions"/>
+    <fragment
+        android:id="@+id/studentDashboard"
+        android:name="com.aditya.quizapp.fragments.StudentDashboard"
+        android:label="fragment_student_dashboard"
+        tools:layout="@layout/fragment_student_dashboard" >
         <action
-            android:id="@+id/action_addQuestionsFragment_self"
-            app:destination="@id/addQuestionsFragment" />
+            android:id="@+id/action_studentDashboard_to_studentFragment"
+            app:destination="@id/studentFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/studentFragment"
+        android:name="com.aditya.quizapp.fragments.StudentFragment"
+        android:label="fragment_student"
+        tools:layout="@layout/fragment_student" />
 </navigation>

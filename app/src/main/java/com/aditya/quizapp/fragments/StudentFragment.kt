@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.aditya.quizapp.databinding.FragmentStudentBinding
-import com.example.quizapplication.QuestionAdapter
+import com.aditya.quizapp.adapters.QuestionAdapter
 
 
 class StudentFragment : Fragment() {

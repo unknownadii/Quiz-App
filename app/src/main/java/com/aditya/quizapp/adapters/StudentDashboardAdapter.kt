@@ -7,14 +7,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
+import com.aditya.quizapp.models.StudentDashboardModel
 
-class StudentDashboardAdapter :RecyclerView.Adapter<StudentDashboardAdapter.SubjectViewHolder>() {
-
-    val items = arrayListOf("d116df5",
-        "36ffc75", "f5cfe78", "5b87628",
-        "db8d14e", "9913dc4", "e120f96",
-        "466251b")
-
+class StudentDashboardAdapter(private val click : ClickEvent,private val items: List<StudentDashboardModel>) :RecyclerView.Adapter<StudentDashboardAdapter.SubjectViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubjectViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.sub_item,parent,false)
@@ -22,13 +17,18 @@ class StudentDashboardAdapter :RecyclerView.Adapter<StudentDashboardAdapter.Subj
     }
 
     override fun onBindViewHolder(holder: SubjectViewHolder, position: Int) {
-        holder.textView.text=items[position]
-        holder.btn.text = items.toString()
+        val item = items[position]
+        holder.textView.text= item.sub.toString()
+        holder.btn.text = item.data.toString()
         if(holder.btn.text.isEmpty()){
-            holder.btn.setOnClickListener{
+            holder.btn.text = "START"
 
-            }
         }
+        else{
+            holder.btn.isEnabled = false
+            holder.btn.isClickable = false
+        }
+
 
     }
 
@@ -40,6 +40,9 @@ class StudentDashboardAdapter :RecyclerView.Adapter<StudentDashboardAdapter.Subj
         var textView: TextView = view.findViewById(R.id.subject_name)
         var btn: Button = view.findViewById(R.id.button_start)
 
+    }
 
+    interface ClickEvent{
+        fun buttonClick()
     }
 }

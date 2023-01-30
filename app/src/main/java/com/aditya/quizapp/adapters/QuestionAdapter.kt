@@ -1,4 +1,4 @@
-package com.example.quizapplication
+package com.aditya.quizapp.adapters
 
 import android.view.LayoutInflater
 import android.view.View

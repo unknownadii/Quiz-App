@@ -1,3 +1,4 @@
-package com.example.quizapplication.models
+package com.aditya.quizapp.models
 
 class Data
+

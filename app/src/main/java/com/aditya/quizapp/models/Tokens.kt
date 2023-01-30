@@ -1,4 +1,4 @@
-package com.example.quizapplication.models
+package com.aditya.quizapp.models
 
 data class Tokens(
     val access: String,
