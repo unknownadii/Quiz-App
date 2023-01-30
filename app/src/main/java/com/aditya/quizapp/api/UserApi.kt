@@ -1,4 +1,4 @@
-package com.example.quizapplication.api
+package com.aditya.quizapp.api
 
 import com.aditya.quizapp.models.StudentDashboardModel
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel

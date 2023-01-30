@@ -1,10 +1,10 @@
 package com.aditya.quizapp.models.loginAndRegister.request
 
 data class UserRegisterRequest(
-    val contact: String,
-    val dob: String,
     val email: String,
     val name: String,
+    val user: String,
     val password: String,
-    val user: String
+    val contact: String,
+    val dob: String,
 )
