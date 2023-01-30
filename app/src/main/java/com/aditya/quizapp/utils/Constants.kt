@@ -1,7 +1,6 @@
 package com.example.quizapplication.utils
 
 object Constants {
-
     const val TAG = "QUIZCODE"
-    const val BASE_URl: String = "https://2c5d-49-249-44-114.in.ngrok.io/"
+    const val BASE_URl: String = "https://48d3-49-249-44-114.in.ngrok.io"
 }

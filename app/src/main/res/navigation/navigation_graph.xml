@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_gp"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/mainSplashFragment">
 
     <fragment
         android:id="@+id/splashFragment"
@@ -37,20 +37,30 @@
     <fragment
         android:id="@+id/registerFragment2"
         android:name="com.aditya.quizapp.fragments.RegisterFragment"
-        android:label="RegisterFragment"></fragment>
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment2_to_teacherDashboardFragment"
+            app:destination="@id/teacherDashboardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addQuestionsFragment"
         android:name="com.aditya.quizapp.Fragments.AddQuestionsFragment"
         android:label="fragment_add_questions"
         tools:layout="@layout/fragment_add_questions">
-        <action
-            android:id="@+id/action_addQuestionsFragment_self"
-            app:destination="@id/addQuestionsFragment"
-            app:popUpTo="@id/splashFragment"/>
     </fragment>
     <fragment
         android:id="@+id/teacherDashboardFragment"
         android:name="com.aditya.quizapp.Fragments.TeacherDashboardFragment"
         android:label="fragment_teacher_dashboard"
         tools:layout="@layout/fragment_teacher_dashboard" />
+    <fragment
+        android:id="@+id/mainSplashFragment"
+        android:name="com.aditya.quizapp.fragments.MainSplashFragment"
+        android:label="fragment_main_splash"
+        tools:layout="@layout/fragment_main_splash" >
+        <action
+            android:id="@+id/action_mainSplashFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+    </fragment>
 </navigation>

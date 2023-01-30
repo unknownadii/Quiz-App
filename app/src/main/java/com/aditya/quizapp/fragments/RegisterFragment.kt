@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.aditya.quizapp.R
 import com.aditya.quizapp.databinding.FragmentRegisterBinding
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.api.UserApi
@@ -70,7 +72,7 @@ class RegisterFragment : Fragment() {
     private fun registerUser() {
         try {
             val data = UserRegisterRequest(
-                "aditya359996@gmail.com",
+                "aditya3442396@gmail.com",
                 "Aditya",
                 "student",
                 "1234",
@@ -91,6 +93,8 @@ class RegisterFragment : Fragment() {
                 binding.progressBarRegister.visibility = View.GONE
                 Log.d("Aditya", it.tokens.toString())
                 Toast.makeText(requireActivity(), it.tokens.access, Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_registerFragment2_to_teacherDashboardFragment)
+               // findNavController().popBackStack()
             } else {
                 binding.progressBarRegister.visibility = View.GONE
                 Snackbar.make(
@@ -100,4 +104,5 @@ class RegisterFragment : Fragment() {
             }
         }
     }
+
 }
