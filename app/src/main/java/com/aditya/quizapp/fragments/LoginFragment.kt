@@ -8,12 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.ViewModelFactoryDsl
 import androidx.navigation.fragment.findNavController
 import com.aditya.quizapp.R
 import com.aditya.quizapp.databinding.FragmentLoginBinding
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
-import com.example.quizapplication.api.UserApi
+import com.aditya.quizapp.api.UserApi
 import com.example.quizapplication.repository.UserRepository
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.example.quizapplication.viewModels.AuthViewModel
@@ -25,8 +24,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private lateinit var viewModel: AuthViewModel
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentLoginBinding.inflate(layoutInflater)
@@ -42,14 +40,22 @@ class LoginFragment : Fragment() {
             ViewModelProvider(this, AuthViewModelFactory(repository))[AuthViewModel::class.java]
 
         binding.btnLogin.setOnClickListener {
-            login()
-            // findNavController().navigate(R.id.action_loginFragment_to_addQuestionsFragment)
+            if (!binding.etEnterQuestion.text.isNullOrEmpty()) {
+                if (!binding.etRegisterPassword.text.isNullOrEmpty()) {
+                    login()
+                } else {
+                    Snackbar.make(it, "Enter Your Password", Snackbar.LENGTH_SHORT).show()
+                }
+            } else {
+                Snackbar.make(it, "Enter Your Email", Snackbar.LENGTH_SHORT).show()
+            }
         }
         setUpLoginObserver()
         return binding.root
     }
 
     private fun login() {
+        binding.progressBarLogin.visibility = View.VISIBLE
         viewModel.loginUser(RequestAuthenticationDataModel("aditya12@gmail.com", "1234"))
     }
 
@@ -64,16 +70,20 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_splashFragment)
         }
     }
+
     private fun setUpLoginObserver() {
         viewModel.userLoginResponseLiveData.observe(requireActivity()) {
             if (it != null) {
+                binding.progressBarLogin.visibility = View.GONE
                 Log.d("Aditya", it.tokens.toString())
                 Toast.makeText(requireActivity(), it.tokens.access, Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_loginFragment_to_teacherDashboardFragment)
+                // findNavController().popBackStack()
+
             } else {
+                binding.progressBarLogin.visibility = View.GONE
                 Snackbar.make(
-                    binding.root,
-                    "Some Went Wrong",
-                    Snackbar.LENGTH_SHORT
+                    binding.root, "Some Went Wrong", Snackbar.LENGTH_SHORT
                 ).show()
             }
         }

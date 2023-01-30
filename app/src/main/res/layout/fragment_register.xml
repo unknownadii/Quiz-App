@@ -63,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvDetails">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/Input_name"
+                android:id="@+id/tvNameRegister"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Name"
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/Input_name_field">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/input_email"
+                android:id="@+id/tvEmailRegister"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Email"
@@ -115,7 +115,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/input_password"
+                android:id="@+id/tvPasswordRegister"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="Password"
@@ -150,7 +150,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/input_contact"
+                    android:id="@+id/tvContactRegister"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Contact"
@@ -176,7 +176,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/input_Dob"
+                    android:id="@+id/tvDobRegister"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="Date Of Birth"
@@ -189,7 +189,7 @@
 
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_register"
+            android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -199,6 +199,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llContactAndDob" />
+
+        <ProgressBar
+            android:id="@+id/progressBarRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

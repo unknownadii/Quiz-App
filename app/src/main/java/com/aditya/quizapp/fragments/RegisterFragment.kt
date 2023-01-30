@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.aditya.quizapp.databinding.FragmentRegisterBinding
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
-import com.example.quizapplication.api.UserApi
+import com.aditya.quizapp.api.UserApi
 import com.example.quizapplication.repository.UserRepository
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.example.quizapplication.viewModels.AuthViewModel
@@ -48,33 +48,53 @@ class RegisterFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.btnRegister.setOnClickListener {
-            registerUser()
+            if (binding.tvNameRegister.text.isNullOrEmpty()) {
+                Snackbar.make(it, "Please Enter Name", Snackbar.LENGTH_SHORT).show()
+            } else if (binding.tvEmailRegister.text.isNullOrEmpty()) {
+                Snackbar.make(it, "Please Enter Email", Snackbar.LENGTH_SHORT).show()
+            } else if (binding.tvEmailRegister.text.isNullOrEmpty()) {
+                Snackbar.make(it, "Please Enter Password", Snackbar.LENGTH_SHORT).show()
+            } else if (binding.tvPasswordRegister.text.isNullOrEmpty()) {
+                Snackbar.make(it, "Please Enter Password", Snackbar.LENGTH_SHORT).show()
+            } else if (binding.tvContactRegister.text.isNullOrEmpty()) {
+                Snackbar.make(it, "Please Enter Contact", Snackbar.LENGTH_SHORT).show()
+            } else if (binding.tvDobRegister.text.isNullOrEmpty()) {
+                Snackbar.make(it, "Please Enter Dob", Snackbar.LENGTH_SHORT).show()
+            } else {
+                registerUser()
+            }
         }
         setUpRegisterObserver()
     }
 
     private fun registerUser() {
-        viewModel.registerUser(
-            UserRegisterRequest(
-                "1234567890",
-                "2000/11/07",
-                "aditya54@gmail.com",
+        try {
+            val data = UserRegisterRequest(
+                "aditya359996@gmail.com",
                 "Aditya",
+                "student",
                 "1234",
-                "Aditya"
+                "9234569876",
+                "2002-11-11"
             )
-        )
+
+            binding.progressBarRegister.visibility = View.VISIBLE
+            viewModel.registerUser(data)
+        } catch (e: Exception) {
+            Snackbar.make(binding.root, e.message.toString(), Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     private fun setUpRegisterObserver() {
         viewModel.userRegisterResponseLiveData.observe(requireActivity()) {
             if (it != null) {
+                binding.progressBarRegister.visibility = View.GONE
                 Log.d("Aditya", it.tokens.toString())
                 Toast.makeText(requireActivity(), it.tokens.access, Toast.LENGTH_SHORT).show()
             } else {
+                binding.progressBarRegister.visibility = View.GONE
                 Snackbar.make(
-                    binding.root,
-                    "Some Went Wrong",
+                    binding.root, "Something Went Wrong",
                     Snackbar.LENGTH_SHORT
                 ).show()
             }

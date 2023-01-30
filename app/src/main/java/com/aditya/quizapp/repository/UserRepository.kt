@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
-import com.example.quizapplication.api.UserApi
+import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 
 class UserRepository(private val userApi: UserApi) {
@@ -21,13 +21,14 @@ class UserRepository(private val userApi: UserApi) {
 
     suspend fun userResister(userRequest: UserRegisterRequest) {
         val result = userApi.signUp(userRequest)
+        val data = result.body()
+        val error = result.errorBody()
         if (result.isSuccessful && result.body() != null) {
             _userRegisterResponseLiveData?.postValue(result.body())
         } else {
-            _userRegisterResponseLiveData?.postValue(null)
+
+            _userRegisterResponseLiveData?.postValue(data)
         }
-
-
     }
 
     suspend fun userLogin(loginRequest: RequestAuthenticationDataModel) {
