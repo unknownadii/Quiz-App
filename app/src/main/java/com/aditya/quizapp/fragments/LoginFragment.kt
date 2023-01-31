@@ -10,11 +10,12 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.aditya.quizapp.R
-import com.aditya.quizapp.databinding.FragmentLoginBinding
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.api.UserApi
+import com.aditya.quizapp.databinding.FragmentLoginBinding
 import com.example.quizapplication.repository.UserRepository
 import com.example.quizapplication.retrofit.RetrofitHelper
+import com.example.quizapplication.utils.Constants
 import com.example.quizapplication.viewModels.AuthViewModel
 import com.example.quizapplication.viewModels.AuthViewModelFactory
 import com.google.android.material.snackbar.Snackbar
@@ -40,14 +41,12 @@ class LoginFragment : Fragment() {
             ViewModelProvider(this, AuthViewModelFactory(repository))[AuthViewModel::class.java]
 
         binding.btnLogin.setOnClickListener {
-            if (!binding.etEnterQuestion.text.isNullOrEmpty()) {
+            if (Constants.checkEmail(binding.etLoginEmail)) {
                 if (!binding.etRegisterPassword.text.isNullOrEmpty()) {
                     login()
                 } else {
                     Snackbar.make(it, "Enter Your Password", Snackbar.LENGTH_SHORT).show()
                 }
-            } else {
-                Snackbar.make(it, "Enter Your Email", Snackbar.LENGTH_SHORT).show()
             }
         }
         setUpLoginObserver()
@@ -70,7 +69,6 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_splashFragment)
         }
     }
-
     private fun setUpLoginObserver() {
         viewModel.userLoginResponseLiveData.observe(requireActivity()) {
             if (it != null) {
@@ -88,4 +86,6 @@ class LoginFragment : Fragment() {
             }
         }
     }
+
+
 }
