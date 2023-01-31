@@ -19,83 +19,9 @@ class StudentFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentStudentBinding.inflate(inflater)
-
+        val subject = arguments?.getString("subject")
         binding?.optionsRv?.adapter = adapter
-
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-//        data.add(Quetions("Martha ,Mary, May, Made Marvelous Milk. In that sentence who made the milk? This is an easy and dumb question!",
-//            "Martha",
-//            "Martha",
-//            "Mary",
-//            "Martha, Mary, May",
-//            "May"))
-
-
-
-
         return binding?.root
     }
-
-
-
 
 }

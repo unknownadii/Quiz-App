@@ -2,11 +2,12 @@ package com.aditya.quizapp.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.models.StudentDashboardModel
+import com.aditya.quizapp.models.getQuestion.StudentQuestion
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
-import com.example.quizapplication.api.UserApi
 
 class UserRepository(private val userApi: UserApi) {
 
@@ -21,6 +22,10 @@ class UserRepository(private val userApi: UserApi) {
 
     private val _studentDashboardModelLiveData = MutableLiveData<StudentDashboardModel?>()
     val studentDashboardModelLiveData: LiveData<StudentDashboardModel?>
+        get() = _studentDashboardModelLiveData
+
+    private val _studentQuizQuestionLiveData = MutableLiveData<StudentQuestion?>()
+    val studentQuizQuestionLiveData: LiveData<StudentDashboardModel?>
         get() = _studentDashboardModelLiveData
 
 
@@ -58,5 +63,15 @@ class UserRepository(private val userApi: UserApi) {
             _studentDashboardModelLiveData?.postValue(null)
         }
     }
+
+    suspend fun getQuizQuestion(token: String,sub: String,page: Int){
+        val result = userApi.quizQuestions(token,sub,page)
+        if (result.isSuccessful && result.body() != null) {
+            _studentQuizQuestionLiveData.postValue(result.body())
+        } else {
+            _studentQuizQuestionLiveData?.postValue(null)
+        }
+    }
+
 
 }

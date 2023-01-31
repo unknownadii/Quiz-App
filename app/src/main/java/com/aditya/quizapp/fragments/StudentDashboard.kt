@@ -14,17 +14,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
 import com.aditya.quizapp.adapters.StudentDashboardAdapter
+import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.databinding.FragmentStudentDashboardBinding
 import com.aditya.quizapp.models.StudentDashboardModel
 import com.aditya.quizapp.repository.UserRepository
 import com.aditya.quizapp.viewModels.AuthViewModel
 import com.aditya.quizapp.viewModels.AuthViewModelFactory
-import com.example.quizapplication.api.UserApi
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.google.android.material.snackbar.Snackbar
 
 
-class StudentDashboard : Fragment(),StudentDashboardAdapter.ClickEvent {
+class StudentDashboard : Fragment(){
     private lateinit var binding : FragmentStudentDashboardBinding
     private lateinit var viewModel: AuthViewModel
     private lateinit var layoutManager :  RecyclerView.LayoutManager
@@ -40,7 +40,7 @@ class StudentDashboard : Fragment(),StudentDashboardAdapter.ClickEvent {
 
         val data = ArrayList<StudentDashboardModel>()
 
-        val adapter = StudentDashboardAdapter(this,data)
+        val adapter = StudentDashboardAdapter(data)
 
         binding.subjectslist.adapter = adapter
 
@@ -77,9 +77,6 @@ class StudentDashboard : Fragment(),StudentDashboardAdapter.ClickEvent {
         }
     }
 
-    override fun buttonClick() {
-        findNavController().navigate(R.id.action_studentDashboard_to_studentFragment)
-    }
 
 
 }

@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
 
-    val userResponseLiveData : LiveData<AuthenticationResponseDataModel>
+    val userRegisterResponseLiveData : LiveData<AuthenticationResponseDataModel>
         get() = userRepository.userResponseLiveData
 
     val userLoginResponseLiveData : LiveData<AuthenticationResponseDataModel?>
