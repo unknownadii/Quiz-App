@@ -15,7 +15,7 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_splashFragment_to_registerFragment2"
-            app:destination="@id/registerFragment2" />
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -28,27 +28,29 @@
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_loginFragment_to_addQuestionsFragment"
-            app:destination="@id/addQuestionsFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_teacherDashboardFragment"
             app:destination="@id/teacherDashboardFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_studentDashboard"
+            app:destination="@id/studentDashboard" />
     </fragment>
     <fragment
-        android:id="@+id/registerFragment2"
+        android:id="@+id/registerFragment"
         android:name="com.aditya.quizapp.fragments.RegisterFragment"
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
-            android:id="@+id/action_registerFragment2_to_teacherDashboardFragment"
+            android:id="@+id/action_registerFragment_to_teacherDashboardFragment"
             app:destination="@id/teacherDashboardFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_studentDashboard"
+            app:destination="@id/studentDashboard" />
     </fragment>
     <fragment
         android:id="@+id/addQuestionsFragment"
         android:name="com.aditya.quizapp.Fragments.AddQuestionsFragment"
         android:label="fragment_add_questions"
-        tools:layout="@layout/fragment_add_questions">
-    </fragment>
+        tools:layout="@layout/fragment_add_questions"></fragment>
     <fragment
         android:id="@+id/teacherDashboardFragment"
         android:name="com.aditya.quizapp.Fragments.TeacherDashboardFragment"
@@ -58,9 +60,20 @@
         android:id="@+id/mainSplashFragment"
         android:name="com.aditya.quizapp.fragments.MainSplashFragment"
         android:label="fragment_main_splash"
-        tools:layout="@layout/fragment_main_splash" >
+        tools:layout="@layout/fragment_main_splash">
         <action
             android:id="@+id/action_mainSplashFragment_to_splashFragment"
             app:destination="@id/splashFragment" />
+        <action
+            android:id="@+id/action_mainSplashFragment_to_teacherDashboardFragment"
+            app:destination="@id/teacherDashboardFragment" />
+        <action
+            android:id="@+id/action_mainSplashFragment_to_studentDashboard"
+            app:destination="@id/studentDashboard" />
     </fragment>
+    <fragment
+        android:id="@+id/studentDashboard"
+        android:name="com.aditya.quizapp.fragments.StudentDashboard"
+        android:label="fragment_student_dashboard"
+        tools:layout="@layout/fragment_student_dashboard" />
 </navigation>

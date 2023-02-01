@@ -6,6 +6,7 @@ import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationD
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 
 class UserRepository(private val userApi: UserApi) {
 
@@ -18,6 +19,9 @@ class UserRepository(private val userApi: UserApi) {
     val userLoginResponseLiveData: LiveData<AuthenticationResponseDataModel?>
         get() = _userLoginResponseLiveData
 
+    private val _responseTeacherDashBoard = MutableLiveData<ResponseTeacherDashboardDataModel?>()
+    val responseTeacherDashBoard: LiveData<ResponseTeacherDashboardDataModel?>
+        get() = _responseTeacherDashBoard
 
     suspend fun userResister(userRequest: UserRegisterRequest) {
         val result = userApi.signUp(userRequest)
@@ -37,6 +41,17 @@ class UserRepository(private val userApi: UserApi) {
             _userLoginResponseLiveData.postValue(result.body())
         } else {
             _userLoginResponseLiveData?.postValue(null)
+        }
+    }
+
+    suspend fun teacherDashboardData(accessTokens: String) {
+        val result = userApi.teacherDashboard(accessTokens)
+        if (result.isSuccessful && result.body() != null) {
+            _responseTeacherDashBoard.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseTeacherDashBoard?.postValue(result.body())
+        } else {
+            _responseTeacherDashBoard.postValue(null)
         }
     }
 

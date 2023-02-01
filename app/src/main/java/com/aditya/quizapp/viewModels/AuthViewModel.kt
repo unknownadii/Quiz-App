@@ -8,28 +8,37 @@ import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationRespons
 import com.example.quizapplication.retrofit.NetworkResult
 import com.example.quizapplication.repository.UserRepository
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.example.quizapplication.models.UserResponse
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
+class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
 
-    val userRegisterResponseLiveData : LiveData<AuthenticationResponseDataModel?>
+    val userRegisterResponseLiveData: LiveData<AuthenticationResponseDataModel?>
         get() = userRepository.userRegisterResponseLiveData
 
-    val userLoginResponseLiveData : LiveData<AuthenticationResponseDataModel?>
-    get() = userRepository.userLoginResponseLiveData
+    val userLoginResponseLiveData: LiveData<AuthenticationResponseDataModel?>
+        get() = userRepository.userLoginResponseLiveData
 
-     fun registerUser(userRequest: UserRegisterRequest){
-         viewModelScope.launch {
+    val responseTeacherDashboardLiveData: LiveData<ResponseTeacherDashboardDataModel?>
+        get() = userRepository.responseTeacherDashBoard
+
+    fun registerUser(userRequest: UserRegisterRequest) {
+        viewModelScope.launch {
             userRepository.userResister(userRequest)
-         }
-     }
+        }
+    }
 
-    fun loginUser(loginRequest: RequestAuthenticationDataModel){
+    fun loginUser(loginRequest: RequestAuthenticationDataModel) {
         viewModelScope.launch {
             userRepository.userLogin(loginRequest)
         }
     }
 
+    fun getTeacherDashBoard(accessToken: String) {
+        viewModelScope.launch {
+            userRepository.teacherDashboardData(accessToken)
+        }
+    }
 
 }

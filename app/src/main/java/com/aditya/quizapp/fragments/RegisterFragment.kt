@@ -1,6 +1,7 @@
 package com.aditya.quizapp.fragments
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -30,15 +31,17 @@ class RegisterFragment : Fragment() {
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var viewModel: AuthViewModel
     private var calender: Calendar = Calendar.getInstance()
+    private var personType: String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentRegisterBinding.inflate(layoutInflater)
-        val text = arguments?.getString("PersonType")
-        Log.d("AdityaClickedRegister", text.toString())
-        binding.appLogo.text = "$text Register"
+
+        personType = arguments?.getString("PersonType")
+        Log.d("AdityaClickedRegister", personType.toString())
+        binding.appLogo.text = "$personType Register"
 
         // api calling for retrofit
         val interfaceApi = RetrofitHelper.getInstance().create(UserApi::class.java)
@@ -84,6 +87,7 @@ class RegisterFragment : Fragment() {
                 Snackbar.make(it, "Please Enter Dob", Snackbar.LENGTH_SHORT).show()
             } else {
                 if (Constants.checkEmail(binding.tvEmailRegister)) {
+                    binding.btnRegister.isClickable = false
                     registerUser()
                 }
             }
@@ -94,14 +98,13 @@ class RegisterFragment : Fragment() {
     private fun registerUser() {
         try {
             val data = UserRegisterRequest(
-                "aditya3442396@gmail.com",
-                "Aditya",
-                "student",
-                "1234",
-                "9234569876",
-                "2002-11-11"
+                binding.tvEmailRegister.text.toString(),
+                binding.tvNameRegister.text.toString(),
+                personType.toString().lowercase(),
+                binding.tvPasswordRegister.text.toString(),
+                binding.tvContactRegister.text.toString(),
+                binding.tvDobRegister.text.toString()
             )
-
             binding.progressBarRegister.visibility = View.VISIBLE
             viewModel.registerUser(data)
         } catch (e: Exception) {
@@ -113,9 +116,14 @@ class RegisterFragment : Fragment() {
         viewModel.userRegisterResponseLiveData.observe(requireActivity()) {
             if (it != null) {
                 binding.progressBarRegister.visibility = View.GONE
-                Log.d("Aditya", it.tokens.toString())
-                Toast.makeText(requireActivity(), it.tokens.access, Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_registerFragment2_to_teacherDashboardFragment)
+                saveData(it.data, it.tokens.access, it.tokens.refresh)
+                // Log.d("Aditya", it.tokens.toString())
+                //Toast.makeText(requireActivity(), it.tokens.access, Toast.LENGTH_SHORT).show()
+                if (it.data == "student") {
+                    findNavController().navigate(R.id.action_registerFragment_to_studentDashboard)
+                } else if (it.data == "teacher") {
+                    findNavController().navigate(R.id.action_registerFragment_to_teacherDashboardFragment)
+                }
                 // findNavController().popBackStack()
             } else {
                 binding.progressBarRegister.visibility = View.GONE
@@ -123,9 +131,11 @@ class RegisterFragment : Fragment() {
                     binding.root, "Something Went Wrong",
                     Snackbar.LENGTH_SHORT
                 ).show()
+                binding.btnRegister.isClickable = false
             }
         }
     }
+
     private fun updateDateInView() {
         val myFormat =
             "yyyy-MM-dd" // mention the format you need
@@ -135,5 +145,17 @@ class RegisterFragment : Fragment() {
         )
         binding.tvDobRegister.setText(dateFormat.format(calender.time))
     }
+
+    private fun saveData(personType: String, accessToken: String, refreshToken: String) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString(getString(R.string.access_token), accessToken)
+            putString(getString(R.string.refresh_token), refreshToken)
+            putString(getString(R.string.person_type), personType)
+            apply()
+            commit()
+        }
+    }
+
 
 }

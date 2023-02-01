@@ -1,5 +1,7 @@
 package com.aditya.quizapp.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -42,7 +44,8 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             if (Constants.checkEmail(binding.etLoginEmail)) {
-                if (!binding.etRegisterPassword.text.isNullOrEmpty()) {
+                if (!binding.etLoginPassword.text.isNullOrEmpty()) {
+                    binding.btnLogin.isClickable = false
                     login()
                 } else {
                     Snackbar.make(it, "Enter Your Password", Snackbar.LENGTH_SHORT).show()
@@ -55,7 +58,12 @@ class LoginFragment : Fragment() {
 
     private fun login() {
         binding.progressBarLogin.visibility = View.VISIBLE
-        viewModel.loginUser(RequestAuthenticationDataModel("aditya12@gmail.com", "1234"))
+        viewModel.loginUser(
+            RequestAuthenticationDataModel(
+                binding.etLoginEmail.text.toString(),
+                binding.etLoginPassword.text.toString()
+            )
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,23 +77,38 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_splashFragment)
         }
     }
+
     private fun setUpLoginObserver() {
         viewModel.userLoginResponseLiveData.observe(requireActivity()) {
             if (it != null) {
                 binding.progressBarLogin.visibility = View.GONE
                 Log.d("Aditya", it.tokens.toString())
-                Toast.makeText(requireActivity(), it.tokens.access, Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_loginFragment_to_teacherDashboardFragment)
+                //saving tokens in the preference
+                saveData(it.data, it.tokens.access, it.tokens.refresh)
+                //Toast.makeText(requireActivity(), it.tokens.access, Toast.LENGTH_SHORT).show()
                 // findNavController().popBackStack()
-
+                if (it.data == "student") {
+                    findNavController().navigate(R.id.action_loginFragment_to_studentDashboard)
+                } else if (it.data == "teacher") {
+                    findNavController().navigate(R.id.action_loginFragment_to_teacherDashboardFragment)
+                }
             } else {
                 binding.progressBarLogin.visibility = View.GONE
                 Snackbar.make(
-                    binding.root, "Some Went Wrong", Snackbar.LENGTH_SHORT
+                    binding.root, "Something Went Wrong", Snackbar.LENGTH_SHORT
                 ).show()
+                binding.btnLogin.isClickable = true
             }
         }
     }
-
-
+    private fun saveData(personType: String, accessToken: String, refreshToken: String) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putString(getString(R.string.access_token), accessToken)
+            putString(getString(R.string.refresh_token), refreshToken)
+            putString(getString(R.string.person_type), personType)
+            apply()
+            commit()
+        }
+    }
 }
