@@ -51,7 +51,7 @@ class UserRepository(private val userApi: UserApi) {
         if (result.isSuccessful && result.body() != null) {
             _userLoginResponseLiveData.postValue(result.body())
         } else {
-            _userLoginResponseLiveData?.postValue(null)
+            _userLoginResponseLiveData.postValue(null)
         }
     }
 
@@ -60,7 +60,7 @@ class UserRepository(private val userApi: UserApi) {
         if (result.isSuccessful && result.body() != null) {
             _studentDashboardModelLiveData.postValue(result.body())
         } else {
-            _studentDashboardModelLiveData?.postValue(null)
+            _studentDashboardModelLiveData.postValue(null)
         }
     }
 
@@ -69,7 +69,7 @@ class UserRepository(private val userApi: UserApi) {
         if (result.isSuccessful && result.body() != null) {
             _studentQuizQuestionLiveData.postValue(result.body())
         } else {
-            _studentQuizQuestionLiveData?.postValue(null)
+            _studentQuizQuestionLiveData.postValue(null)
         }
     }
 

@@ -73,7 +73,7 @@
     </fragment>
     <fragment
         android:id="@+id/teacherDashboardFragment"
-        android:name="com.aditya.quizapp.Fragments.TeacherDashboardFragment"
+        android:name="com.aditya.quizapp.fragments.TeacherDashboardFragment"
         android:label="TeacherDashboardFragment"
         tools:layout="@layout/fragment_teacher_dashboard">
         <action

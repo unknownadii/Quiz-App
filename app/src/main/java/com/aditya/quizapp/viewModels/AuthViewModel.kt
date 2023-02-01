@@ -40,5 +40,11 @@ class AuthViewModel(private val userRepository: UserRepository): ViewModel() {
         }
     }
 
+    fun getQuizQuestion(token: String,subject: String,page: Int){
+        viewModelScope.launch {
+            userRepository.getQuizQuestion(token,subject,page)
+        }
+    }
+
 
 }

@@ -23,9 +23,9 @@ class StudentDashboardAdapter(private val items: List<StudentDashboardModel>) :R
         val item = items[position]
         holder.textView.text= item.sub.toString()
         holder.btn.text = item.data.toString()
-        val bundle = Bundle()
         if(holder.btn.text == "START"){
             holder.btn.setOnClickListener {
+                val bundle = Bundle()
                 bundle.apply {
                     putString("subject", holder.btn.text.toString())
                 }

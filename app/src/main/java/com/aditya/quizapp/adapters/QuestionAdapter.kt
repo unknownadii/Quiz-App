@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
+import com.aditya.quizapp.models.getQuestion.StudentQuestion
 
-class QuestionAdapter(): RecyclerView.Adapter<QuestionAdapter.ItemViewHolder>() {
-
+class QuestionAdapter(private val question: List<StudentQuestion>) :
+    RecyclerView.Adapter<QuestionAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.option_student, parent, false)
@@ -16,23 +17,17 @@ class QuestionAdapter(): RecyclerView.Adapter<QuestionAdapter.ItemViewHolder>() 
     }
 
     override fun getItemCount(): Int {
-        TODO("kulaks")
+        return question.size
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.option_box.setOnClickListener {
-            if (holder.option_box is CheckBox) {
-                val checked: Boolean = holder.option_box.isChecked
-                val option_number = holder.option_box.id
-            }
-
-        }
+        val items = question[position]
 
     }
 
     class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        val option_box: CheckBox = view.findViewById(R.id.checkBox)
+        val option: CheckBox = view.findViewById(R.id.questions)
 
     }
 }

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:textSize="18sp"
-            android:text="TextView" />
+            android:text="@string/textview" />
 
         <TextView
             android:id="@+id/answer"
