@@ -94,7 +94,6 @@ class RegisterFragment : Fragment() {
         }
         setUpRegisterObserver()
     }
-
     private fun registerUser() {
         try {
             val data = UserRegisterRequest(

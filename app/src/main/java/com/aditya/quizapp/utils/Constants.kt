@@ -25,7 +25,6 @@ object Constants {
         }
         return true
     }
-
     fun getToken(activity: Activity): String? {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val accessToken = sharedPref?.getString(R.string.access_token.toString(), null)

@@ -5,8 +5,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.math.log
-
 
 object RetrofitHelper {
 
@@ -15,6 +13,7 @@ object RetrofitHelper {
 
     //create Okhttp Client
     private val okHttp = OkHttpClient.Builder().addInterceptor(logger)
+
     fun getInstance(): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())

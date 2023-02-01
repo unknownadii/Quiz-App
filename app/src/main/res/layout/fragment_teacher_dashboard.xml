@@ -14,6 +14,15 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar_main" />
 
+        <ProgressBar
+            android:id="@+id/progressBarTeacherDashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvStudentDashBoard"
             android:layout_width="match_parent"
@@ -21,7 +30,7 @@
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/progressBarTeacherDashboard"
             tools:itemCount="2"
             tools:listitem="@layout/sub_item_teacher">
 
