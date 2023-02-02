@@ -23,6 +23,7 @@ import com.example.quizapplication.repository.UserRepository
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.example.quizapplication.viewModels.AuthViewModel
 import com.example.quizapplication.viewModels.AuthViewModelFactory
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 
@@ -35,17 +36,23 @@ class TeacherDashboardFragment : Fragment() {
     private val subjectData: ArrayList<String> = ArrayList()
     private lateinit var sharePref: SharedPreferences
     private var subjectNameToAdd = ""
+    private lateinit var shimmerLayout: ShimmerFrameLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTeacherDashboardBinding.inflate(layoutInflater)
 
+        //starting the teacher
+        shimmerLayout = binding.shimmerViewContainerTeacher
+        shimmerLayout.startShimmer()
+
         // api calling for retrofit
         val interfaceApi = RetrofitHelper.getInstance().create(UserApi::class.java)
         val repository = UserRepository(interfaceApi)
         viewModel =
             ViewModelProvider(this, AuthViewModelFactory(repository))[AuthViewModel::class.java]
+
         return binding.root
     }
 
@@ -53,13 +60,13 @@ class TeacherDashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //Setting layoutmanager for recycler view
-        binding.rvStudentDashBoard.layoutManager = GridLayoutManager(requireActivity(), 2)
+        binding.rvTeachersDashBoard.layoutManager = GridLayoutManager(requireActivity(), 2)
 
         sharePref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
         accessTokens = sharePref.getString(getString(R.string.access_token), null).toString()
 
         try {
-            binding.progressBarTeacherDashboard.visibility = View.VISIBLE
+            //  binding.progressBarTeacherDashboard.visibility = View.VISIBLE
             viewModel.getTeacherDashBoard("Bearer $accessTokens")
         } catch (e: Exception) {
             Snackbar.make(binding.root, e.toString(), Snackbar.LENGTH_SHORT).show()
@@ -75,15 +82,19 @@ class TeacherDashboardFragment : Fragment() {
             Log.d("AdityaDashboard", it.toString())
             if (it != null && accessTokens != null) {
                 Log.d("DataTesting", it.data.toString())
-
                 //setting up recyclerview data
+                shimmerLayout.startShimmer()
+                shimmerLayout.visibility = View.GONE
+                binding.rvTeachersDashBoard.visibility = View.VISIBLE
                 val adapter = TeacherDashboardAdapter(it.data)
-                binding.rvStudentDashBoard.adapter = adapter
-                binding.progressBarTeacherDashboard.visibility = View.GONE
-                Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT)
-                    .show()
+                //binding.progressBarTeacherDashboard.visibility = View.GONE
+                binding.rvTeachersDashBoard.adapter = adapter
+                //Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT).show()
             } else {
-                binding.progressBarTeacherDashboard.visibility = View.GONE
+                //binding.progressBarTeacherDashboard.visibility = View.GONE
+                shimmerLayout.startShimmer()
+                shimmerLayout.visibility = View.GONE
+                binding.rvTeachersDashBoard.visibility = View.VISIBLE
                 Snackbar.make(binding.root, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -117,14 +128,14 @@ class TeacherDashboardFragment : Fragment() {
                 subjectNameToAdd = tvSubjectName.text.toString()
                 try {
                     viewModel.getTeacherAddSubject(
-                        "Bearer $accessTokens",TeacherAddSubjectDataModel(name = subjectNameToAdd)
+                        "Bearer $accessTokens", TeacherAddSubjectDataModel(name = subjectNameToAdd)
                     )
                     setUpAddSubjectDataObserver()
                 } catch (e: Exception) {
                     Toast.makeText(requireActivity(), "Unable To Add Data", Toast.LENGTH_SHORT)
                         .show()
                 }
-               // bottomDialog.dismiss()
+                // bottomDialog.dismiss()
             } else {
                 Toast.makeText(requireActivity(), "Enter Subject", Toast.LENGTH_SHORT).show()
 
@@ -138,11 +149,6 @@ class TeacherDashboardFragment : Fragment() {
         bottomDialog.setContentView(view)
         bottomDialog.show()
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Toast.makeText(requireActivity(), "onResumeWorked", Toast.LENGTH_SHORT).show()
     }
 
     /*

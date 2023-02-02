@@ -17,31 +17,29 @@
 
         <TextView
             android:id="@+id/subject_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Subject"
+            android:background="@color/light_grey"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_add_q"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textSize="12sp"
-            android:background="@drawable/button_frame"
-            android:text="View Questions" />
+            android:background="@color/light_grey" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_add_s"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:textSize="14sp"
             android:padding="10dp"
-            android:background="@drawable/button_frame_light_grey"
-            android:text="Add Question" />
+            android:background="@color/light_grey" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

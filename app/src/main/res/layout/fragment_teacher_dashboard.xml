@@ -18,23 +18,42 @@
             android:id="@+id/progressBarTeacherDashboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStudentDashBoard"
+        <LinearLayout
+            android:id="@+id/llContainerTeacherDashboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBarTeacherDashboard"
-            tools:itemCount="2"
-            tools:listitem="@layout/sub_item_teacher">
+            app:layout_constraintTop_toBottomOf="@+id/progressBarTeacherDashboard">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerViewContainerTeacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <include layout="@layout/shimmer_effect_teacher_dashboard" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTeachersDashBoard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:itemCount="2"
+                tools:listitem="@layout/sub_item_teacher">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddSubject"
@@ -47,7 +66,7 @@
             android:text="Add subject"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rvStudentDashBoard" />
+            app:layout_constraintTop_toBottomOf="@+id/llContainerTeacherDashboard" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_LeaderBoard"
