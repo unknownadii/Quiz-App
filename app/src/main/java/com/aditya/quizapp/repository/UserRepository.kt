@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.aditya.quizapp.api.UserApi
+import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
+import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTeacherDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 
 class UserRepository(private val userApi: UserApi) {
-
 
     private val _userRegisterResponseLiveData = MutableLiveData<AuthenticationResponseDataModel?>()
     val userRegisterResponseLiveData: LiveData<AuthenticationResponseDataModel?>
@@ -22,6 +23,10 @@ class UserRepository(private val userApi: UserApi) {
     private val _responseTeacherDashBoard = MutableLiveData<ResponseTeacherDashboardDataModel?>()
     val responseTeacherDashBoard: LiveData<ResponseTeacherDashboardDataModel?>
         get() = _responseTeacherDashBoard
+
+    private val _responseTeacherAddSubject = MutableLiveData<ResponseAddSubjectTeacherDataModel?>()
+    val responseTeacherAddSubject: LiveData<ResponseAddSubjectTeacherDataModel?>
+        get() = _responseTeacherAddSubject
 
     suspend fun userResister(userRequest: UserRegisterRequest) {
         val result = userApi.signUp(userRequest)
@@ -49,7 +54,18 @@ class UserRepository(private val userApi: UserApi) {
         if (result.isSuccessful && result.body() != null) {
             _responseTeacherDashBoard.postValue(result.body())
         } else if (!result.isSuccessful && result.body() != null) {
-            _responseTeacherDashBoard?.postValue(result.body())
+            _responseTeacherDashBoard.postValue(result.body())
+        } else {
+            _responseTeacherDashBoard.postValue(null)
+        }
+    }
+
+    suspend fun teacherAddSubjectData(accessTokens: String, subjectName: TeacherAddSubjectDataModel) {
+        val result = userApi.teacherAddSubject(accessTokens, subjectName)
+        if (result.isSuccessful && result.body() != null) {
+            _responseTeacherAddSubject.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseTeacherAddSubject.postValue(result.body())
         } else {
             _responseTeacherDashBoard.postValue(null)
         }

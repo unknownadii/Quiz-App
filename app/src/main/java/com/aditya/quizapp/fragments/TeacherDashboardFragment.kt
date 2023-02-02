@@ -1,28 +1,29 @@
 package com.aditya.quizapp.Fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
+import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.aditya.quizapp.R
 import com.aditya.quizapp.adapters.TeacherDashboardAdapter
 import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.databinding.FragmentTeacherDashboardBinding
-import com.example.quizapplication.models.Tokens
+import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
 import com.example.quizapplication.repository.UserRepository
 import com.example.quizapplication.retrofit.RetrofitHelper
-import com.example.quizapplication.utils.Constants
 import com.example.quizapplication.viewModels.AuthViewModel
 import com.example.quizapplication.viewModels.AuthViewModelFactory
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 
 class TeacherDashboardFragment : Fragment() {
@@ -30,7 +31,10 @@ class TeacherDashboardFragment : Fragment() {
     private lateinit var binding: FragmentTeacherDashboardBinding
     private lateinit var viewModel: AuthViewModel
     private lateinit var accessTokens: String
+    private lateinit var bottomDialog: BottomSheetDialog
     private val subjectData: ArrayList<String> = ArrayList()
+    private lateinit var sharePref: SharedPreferences
+    private var subjectNameToAdd = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,14 +55,17 @@ class TeacherDashboardFragment : Fragment() {
         //Setting layoutmanager for recycler view
         binding.rvStudentDashBoard.layoutManager = GridLayoutManager(requireActivity(), 2)
 
-        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
-        accessTokens = sharedPref.getString(getString(R.string.access_token), null).toString()
+        sharePref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        accessTokens = sharePref.getString(getString(R.string.access_token), null).toString()
 
         try {
             binding.progressBarTeacherDashboard.visibility = View.VISIBLE
             viewModel.getTeacherDashBoard("Bearer $accessTokens")
         } catch (e: Exception) {
             Snackbar.make(binding.root, e.toString(), Snackbar.LENGTH_SHORT).show()
+        }
+        binding.btnAddSubject.setOnClickListener {
+            showBottomSheetDialog()
         }
         setUpTeacherDashBoardObserver()
     }
@@ -80,6 +87,62 @@ class TeacherDashboardFragment : Fragment() {
                 Snackbar.make(binding.root, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun setUpAddSubjectDataObserver() {
+        viewModel.responseTeacherSubjectNameLiveData.observe(requireActivity()) {
+            if (it != null) {
+                Toast.makeText(requireActivity(), it.Message, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    requireActivity(),
+                    "Something went wrong",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun showBottomSheetDialog() {
+
+        bottomDialog = BottomSheetDialog(requireActivity())
+        val view = layoutInflater.inflate(R.layout.fragment_add_sub, null)
+
+        val addQuestion = view.findViewById<AppCompatButton>(R.id.btnAddSubject)
+        val btnClose = view.findViewById<ImageView>(R.id.closeAddSubject)
+        val tvSubjectName = view.findViewById<AppCompatEditText>(R.id.inputSubjectName)
+
+        addQuestion.setOnClickListener {
+            if (!tvSubjectName.text.isNullOrEmpty()) {
+                subjectNameToAdd = tvSubjectName.text.toString()
+                try {
+                    viewModel.getTeacherAddSubject(
+                        "Bearer $accessTokens",TeacherAddSubjectDataModel(name = subjectNameToAdd)
+                    )
+                    setUpAddSubjectDataObserver()
+                } catch (e: Exception) {
+                    Toast.makeText(requireActivity(), "Unable To Add Data", Toast.LENGTH_SHORT)
+                        .show()
+                }
+               // bottomDialog.dismiss()
+            } else {
+                Toast.makeText(requireActivity(), "Enter Subject", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+        btnClose.setOnClickListener {
+            bottomDialog.dismiss()
+        }
+        bottomDialog.setCancelable(false)
+
+        bottomDialog.setContentView(view)
+        bottomDialog.show()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(requireActivity(), "onResumeWorked", Toast.LENGTH_SHORT).show()
     }
 
     /*

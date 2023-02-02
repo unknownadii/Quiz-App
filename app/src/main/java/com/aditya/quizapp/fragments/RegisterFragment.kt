@@ -8,9 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.aditya.quizapp.R
@@ -19,7 +16,7 @@ import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.api.UserApi
 import com.example.quizapplication.repository.UserRepository
 import com.example.quizapplication.retrofit.RetrofitHelper
-import com.example.quizapplication.utils.Constants
+import com.aditya.quizapp.utils.Constants
 import com.example.quizapplication.viewModels.AuthViewModel
 import com.example.quizapplication.viewModels.AuthViewModelFactory
 import com.google.android.material.snackbar.Snackbar

@@ -1,9 +1,7 @@
-package com.example.quizapplication.utils
+package com.aditya.quizapp.utils
 
 import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
-import android.provider.Settings.Secure.getString
 import android.util.Patterns
 import androidx.appcompat.widget.AppCompatEditText
 import com.aditya.quizapp.R

@@ -1,11 +1,12 @@
 package com.aditya.quizapp.api
 
+import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
+import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTeacherDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.example.quizapplication.models.StudentDashboard
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
-import com.example.quizapplication.models.Tokens
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,4 +27,10 @@ interface UserApi {
     suspend fun teacherDashboard(
         @Header("Authorization") accessTokens: String
     ): Response<ResponseTeacherDashboardDataModel>
+
+    @POST("/quiz/addSubject/")
+    suspend fun teacherAddSubject(
+        @Header("Authorization") accessTokens: String,
+        @Body subjectName: TeacherAddSubjectDataModel
+    ): Response<ResponseAddSubjectTeacherDataModel>
 }

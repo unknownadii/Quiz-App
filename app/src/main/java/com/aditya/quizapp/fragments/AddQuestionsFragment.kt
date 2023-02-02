@@ -68,6 +68,7 @@ class AddQuestionsFragment : Fragment() {
             adapterQuestions.notifyItemInserted(questionsData.size - 1)
             adapterQuestions.notifyItemChanged(questionsData.size - 1)
         }
+
     }
 
     // user clicks on addButton

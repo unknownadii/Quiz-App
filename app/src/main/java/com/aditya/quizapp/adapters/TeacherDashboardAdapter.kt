@@ -9,7 +9,9 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
 
-class TeacherDashboardAdapter(private val mList: List<String>) :
+class TeacherDashboardAdapter(
+    private val mList: List<String>
+) :
     RecyclerView.Adapter<TeacherDashboardAdapter.TeacherViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeacherViewHolder {

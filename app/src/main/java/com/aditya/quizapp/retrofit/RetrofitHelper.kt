@@ -1,6 +1,6 @@
 package com.example.quizapplication.retrofit
 
-import com.example.quizapplication.utils.Constants.BASE_URl
+import com.aditya.quizapp.utils.Constants.BASE_URl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
