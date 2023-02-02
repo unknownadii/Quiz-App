@@ -47,19 +47,19 @@ class StudentFragment : Fragment() {
 
         val result = viewModel.getQuizQuestion(retrivedAccessToken!!,subject!!,1)
 
-        viewModel.studentDashboardModelLiveData.observe(requireActivity()) {
-            if (it != null) {
-
-                Log.d("StudentQuiz",result.toString())
-
-            } else {
-                Snackbar.make(
-                    binding.root,
-                    "Some Went Wrong",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
+//        viewModel.studentDashboardModelLiveData.observe(requireActivity()) {
+//            if (it != null) {
+//
+//                Log.d("StudentQuiz",result.toString())
+//
+//            } else {
+//                Snackbar.make(
+//                    binding.root,
+//                    "Some Went Wrong",
+//                    Snackbar.LENGTH_SHORT
+//                ).show()
+//            }
+//        }
 
         binding.btnSubmit.setOnClickListener {
             findNavController().navigate(R.id.action_studentFragment_to_scoreBoard)

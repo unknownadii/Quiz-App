@@ -50,7 +50,7 @@ class SplashFragment : Fragment() {
                     Log.d("Aditya",binding.autoCompleteTextView.text.toString())
                     putString("PersonType", binding.autoCompleteTextView.text.toString())
                 }
-                findNavController().navigate(R.id.action_splashFragment_to_loginFragment,bundle)
+                findNavController().navigate(R.id.action_splashFragment_to_registerFragment2,bundle)
             }
         }
 

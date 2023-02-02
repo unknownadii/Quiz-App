@@ -1,12 +1,16 @@
 package com.aditya.quizapp.api
 
-import com.aditya.quizapp.models.StudentDashboardModel
-import com.aditya.quizapp.models.getQuestion.StudentQuestion
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
-import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
+import com.example.quizapplication.models.StudentDashboard
+import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
+import com.example.quizapplication.models.Tokens
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.POST
 
 interface UserApi {
     @POST("/register/")
@@ -16,8 +20,10 @@ interface UserApi {
     suspend fun signIn(@Body loginRequest: RequestAuthenticationDataModel): Response<AuthenticationResponseDataModel>
 
     @GET("/studentDashboard/")
-    suspend fun studentDashboard(@Header("Authorization") token: String): Response<StudentDashboardModel>
+    suspend fun studentDashboard(): Response<StudentDashboard>
 
-    @GET("/quiz/{subject}/{page}/")
-    suspend fun quizQuestions(@Header("Authorization") token: String,@Path("subject") sub: String,@Query("page") page: Int): Response<StudentQuestion>
+    @GET("/teacherDashboard/")
+    suspend fun teacherDashboard(
+        @Header("Authorization") accessTokens: String
+    ): Response<ResponseTeacherDashboardDataModel>
 }

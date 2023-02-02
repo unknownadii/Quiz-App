@@ -6,17 +6,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
 import com.aditya.quizapp.adapters.StudentDashboardAdapter
+import com.aditya.quizapp.adapters.TeacherDashboardAdapter
 import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.databinding.FragmentStudentDashboardBinding
-import com.aditya.quizapp.models.StudentDashboardModel
+import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
 import com.aditya.quizapp.repository.UserRepository
 import com.aditya.quizapp.viewModels.AuthViewModel
 import com.aditya.quizapp.viewModels.AuthViewModelFactory
@@ -27,6 +26,7 @@ import com.google.android.material.snackbar.Snackbar
 class StudentDashboard : Fragment(){
     private lateinit var binding : FragmentStudentDashboardBinding
     private lateinit var viewModel: AuthViewModel
+    private lateinit var accessTokens: String
     private lateinit var layoutManager :  RecyclerView.LayoutManager
 
     override fun onCreateView(
@@ -35,14 +35,8 @@ class StudentDashboard : Fragment(){
     ): View {
         // Inflate the layout for this fragment
 
-        layoutManager = GridLayoutManager(context, 2)
+        //layoutManager = GridLayoutManager(context, 2)
         binding = FragmentStudentDashboardBinding.inflate(layoutInflater)
-
-        val data = ArrayList<StudentDashboardModel>()
-
-        val adapter = StudentDashboardAdapter(data)
-
-        binding.subjectslist.adapter = adapter
 
         val interfaceApi = RetrofitHelper.getInstance().create(UserApi::class.java)
         val repository = UserRepository(interfaceApi)
@@ -55,17 +49,29 @@ class StudentDashboard : Fragment(){
 
     private fun getData() {
 
+        val data = ArrayList<StudentDashboardModel>()
 
-        val preferences = requireActivity().getSharedPreferences("MY_APP", Context.MODE_PRIVATE)
-        val retrivedAccessToken = preferences.getString("ACCESS_TOKEN",null)
+        val adapter = StudentDashboardAdapter(data)
 
-        val result = viewModel.studentDashboard(retrivedAccessToken!!)
+        binding.subjectslist.adapter = adapter
 
 
-        viewModel.studentDashboardModelLiveData.observe(requireActivity()) {
+        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+        accessTokens = sharedPref.getString(R.string.access_token.toString(), null).toString()
+
+        try {
+             viewModel.studentDashboard( "Bearer $accessTokens")
+        } catch (e: Exception) {
+            Snackbar.make(binding.root, e.toString(), Snackbar.LENGTH_SHORT).show()
+        }
+
+        //val result = viewModel.studentDashboard(accessTokens)
+
+
+        viewModel.studentDashboardLiveData.observe(requireActivity()) {
             if (it != null) {
 
-                Log.d("StudentDashboard",result.toString())
+                Log.d("StudentDashboard","api not called")
 
             } else {
                 Snackbar.make(

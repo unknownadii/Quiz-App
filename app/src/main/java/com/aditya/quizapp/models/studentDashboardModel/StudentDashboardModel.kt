@@ -1,7 +1,7 @@
-package com.aditya.quizapp.models
+package com.aditya.quizapp.models.studentDashboardModel
 
 data class StudentDashboardModel(
     val Message: String,
-    val `data`: List<Data>,
+    val `data`: Data,
     val sub: List<String>
 )

@@ -4,6 +4,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="textview">TextView</string>
 
+    <string name="access_token">Access Token Student</string>
+    <string name="refresh_token">Refresh Token Student</string>
+    <string name="person_type">Person Type</string>
+
     <string-array name="programming_languages">
         <item>Teacher</item>
         <item>Student</item>

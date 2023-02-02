@@ -1,49 +1,38 @@
-package com.aditya.quizapp.repository
+package com.example.quizapplication.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.aditya.quizapp.api.UserApi
-import com.aditya.quizapp.models.StudentDashboardModel
-import com.aditya.quizapp.models.getQuestion.StudentQuestion
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
-import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
+import com.aditya.quizapp.api.UserApi
+import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 
 class UserRepository(private val userApi: UserApi) {
 
 
-   private val _userResponseLiveData = MutableLiveData<AuthenticationResponseDataModel>()
-    val userResponseLiveData: LiveData<AuthenticationResponseDataModel>
-        get() = _userResponseLiveData
+    private val _userRegisterResponseLiveData = MutableLiveData<AuthenticationResponseDataModel?>()
+    val userRegisterResponseLiveData: LiveData<AuthenticationResponseDataModel?>
+        get() = _userRegisterResponseLiveData
 
-   private val _userLoginResponseLiveData = MutableLiveData<AuthenticationResponseDataModel?>()
+    private val _userLoginResponseLiveData = MutableLiveData<AuthenticationResponseDataModel?>()
     val userLoginResponseLiveData: LiveData<AuthenticationResponseDataModel?>
         get() = _userLoginResponseLiveData
 
-    private val _studentDashboardModelLiveData = MutableLiveData<StudentDashboardModel?>()
-    val studentDashboardModelLiveData: LiveData<StudentDashboardModel?>
-        get() = _studentDashboardModelLiveData
-
-    private val _studentQuizQuestionLiveData = MutableLiveData<StudentQuestion?>()
-    val studentQuizQuestionLiveData: LiveData<StudentDashboardModel?>
-        get() = _studentDashboardModelLiveData
-
-
-
+    private val _responseTeacherDashBoard = MutableLiveData<ResponseTeacherDashboardDataModel?>()
+    val responseTeacherDashBoard: LiveData<ResponseTeacherDashboardDataModel?>
+        get() = _responseTeacherDashBoard
 
     suspend fun userResister(userRequest: UserRegisterRequest) {
-        val response = userApi.signUp(userRequest)
-
-        if (response.isSuccessful && response.body() != null) {
-            _userResponseLiveData.postValue(response.body()!!)
-        } else if (response.errorBody() != null) {
-            _userResponseLiveData.postValue(error("something went wrong"))
+        val result = userApi.signUp(userRequest)
+        val data = result.body()
+        val error = result.errorBody()
+        if (result.isSuccessful && result.body() != null) {
+            _userRegisterResponseLiveData?.postValue(result.body())
         } else {
-            _userResponseLiveData.postValue(error("something went wrong"))
 
+            _userRegisterResponseLiveData?.postValue(data)
         }
-
-
     }
 
     suspend fun userLogin(loginRequest: RequestAuthenticationDataModel) {
@@ -51,27 +40,19 @@ class UserRepository(private val userApi: UserApi) {
         if (result.isSuccessful && result.body() != null) {
             _userLoginResponseLiveData.postValue(result.body())
         } else {
-            _userLoginResponseLiveData.postValue(null)
+            _userLoginResponseLiveData?.postValue(null)
         }
     }
 
-    suspend fun studentDashboard(token: String){
-        val result = userApi.studentDashboard(token)
+    suspend fun teacherDashboardData(accessTokens: String) {
+        val result = userApi.teacherDashboard(accessTokens)
         if (result.isSuccessful && result.body() != null) {
-            _studentDashboardModelLiveData.postValue(result.body())
+            _responseTeacherDashBoard.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseTeacherDashBoard?.postValue(result.body())
         } else {
-            _studentDashboardModelLiveData.postValue(null)
+            _responseTeacherDashBoard.postValue(null)
         }
     }
-
-    suspend fun getQuizQuestion(token: String,sub: String,page: Int){
-        val result = userApi.quizQuestions(token,sub,page)
-        if (result.isSuccessful && result.body() != null) {
-            _studentQuizQuestionLiveData.postValue(result.body())
-        } else {
-            _studentQuizQuestionLiveData.postValue(null)
-        }
-    }
-
 
 }

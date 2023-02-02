@@ -15,7 +15,7 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_splashFragment_to_registerFragment2"
-            app:destination="@id/registerFragment2" />
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -28,77 +28,52 @@
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_loginFragment_to_studentDashboard"
-            app:destination="@id/studentDashboard" />
-        <action
             android:id="@+id/action_loginFragment_to_teacherDashboardFragment"
             app:destination="@id/teacherDashboardFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_studentDashboard"
+            app:destination="@id/studentDashboard" />
     </fragment>
     <fragment
-        android:id="@+id/registerFragment2"
+        android:id="@+id/registerFragment"
         android:name="com.aditya.quizapp.fragments.RegisterFragment"
-        tools:layout="@layout/fragment_register"
-        android:label="RegisterFragment"></fragment>
+        android:label="RegisterFragment"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/action_registerFragment_to_teacherDashboardFragment"
+            app:destination="@id/teacherDashboardFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_studentDashboard"
+            app:destination="@id/studentDashboard" />
+    </fragment>
     <fragment
         android:id="@+id/addQuestionsFragment"
         android:name="com.aditya.quizapp.Fragments.AddQuestionsFragment"
         android:label="fragment_add_questions"
-        tools:layout="@layout/fragment_add_questions"/>
+        tools:layout="@layout/fragment_add_questions"></fragment>
     <fragment
-        android:id="@+id/studentDashboard"
-        android:name="com.aditya.quizapp.fragments.StudentDashboard"
-        android:label="fragment_student_dashboard"
-        tools:layout="@layout/fragment_student_dashboard" >
-        <action
-            android:id="@+id/action_studentDashboard_to_studentFragment"
-            app:destination="@id/studentFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/studentFragment"
-        android:name="com.aditya.quizapp.fragments.StudentFragment"
-        android:label="fragment_student"
-        tools:layout="@layout/fragment_student" >
-        <action
-            android:id="@+id/action_studentFragment_to_scoreBoard"
-            app:destination="@id/scoreBoard" />
-    </fragment>
+        android:id="@+id/teacherDashboardFragment"
+        android:name="com.aditya.quizapp.Fragments.TeacherDashboardFragment"
+        android:label="fragment_teacher_dashboard"
+        tools:layout="@layout/fragment_teacher_dashboard" />
     <fragment
         android:id="@+id/mainSplashFragment"
         android:name="com.aditya.quizapp.fragments.MainSplashFragment"
         android:label="fragment_main_splash"
-        tools:layout="@layout/fragment_main_splash" >
+        tools:layout="@layout/fragment_main_splash">
         <action
             android:id="@+id/action_mainSplashFragment_to_splashFragment"
             app:destination="@id/splashFragment" />
+        <action
+            android:id="@+id/action_mainSplashFragment_to_teacherDashboardFragment"
+            app:destination="@id/teacherDashboardFragment" />
+        <action
+            android:id="@+id/action_mainSplashFragment_to_studentDashboard"
+            app:destination="@id/studentDashboard" />
     </fragment>
     <fragment
-        android:id="@+id/teacherDashboardFragment"
-        android:name="com.aditya.quizapp.fragments.TeacherDashboardFragment"
-        android:label="TeacherDashboardFragment"
-        tools:layout="@layout/fragment_teacher_dashboard">
-        <action
-            android:id="@+id/action_teacherDashboardFragment_to_addSubFrag"
-            app:destination="@id/addSubFrag" />
-        <action
-            android:id="@+id/action_teacherDashboardFragment_to_teacherFragment"
-            app:destination="@id/teacherFragment" />
-        <action
-            android:id="@+id/action_teacherDashboardFragment_to_addQuestionsFragment"
-            app:destination="@id/addQuestionsFragment" />
-    </fragment>
-    <dialog
-        android:id="@+id/addSubFrag"
-        android:name="com.aditya.quizapp.fragments.AddSubFrag"
-        android:label="fragment_add_sub"
-        tools:layout="@layout/fragment_add_sub" />
-    <fragment
-        android:id="@+id/scoreBoard"
-        android:name="com.aditya.quizapp.ScoreBoard"
-        android:label="fragment_score_board"
-        tools:layout="@layout/fragment_score_board" />
-    <fragment
-        android:id="@+id/teacherFragment"
-        android:name="com.aditya.quizapp.fragments.TeacherFragment"
-        android:label="fragment_teacher"
-        tools:layout="@layout/fragment_teacher" />
+        android:id="@+id/studentDashboard"
+        android:name="com.aditya.quizapp.fragments.StudentDashboard"
+        android:label="fragment_student_dashboard"
+        tools:layout="@layout/fragment_student_dashboard" />
 </navigation>
