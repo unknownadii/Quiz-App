@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.adapters.StudentDashboardAdapter
 import com.aditya.quizapp.databinding.FragmentStudentBinding
+import com.aditya.quizapp.databinding.FragmentStudentDashboardBinding
 
 
 class StudentDashboard : Fragment() {
-    private var binding: FragmentStudentBinding? = null
+    private lateinit var binding: FragmentStudentDashboardBinding
 
     private var adapter = StudentDashboardAdapter()
     private lateinit var layoutManager: RecyclerView.LayoutManager
@@ -21,13 +22,15 @@ class StudentDashboard : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        // Inflate the layout for this fragment
-
+        binding = FragmentStudentDashboardBinding.inflate(layoutInflater)
 //        layoutManager = GridLayoutManager(context, 2)
 //        binding = FragmentStudentBinding.inflate(layoutInflater)
 //        binding?.recyclerview?.adapter = adapter
-        return binding?.root
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+    }
 }

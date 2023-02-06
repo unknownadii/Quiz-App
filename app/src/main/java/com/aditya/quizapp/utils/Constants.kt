@@ -9,7 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 
 object Constants {
     const val TAG = "QUIZCODE"
-    const val BASE_URl: String = "https://48d3-49-249-44-114.in.ngrok.io"
+    const val BASE_URl: String = "https://9c1d-49-249-44-114.in.ngrok.io"
     fun checkEmail(view: AppCompatEditText): Boolean {
         // Getting the user input
         if (view.text.isNullOrEmpty()) // check if user have not entered then ask for enter

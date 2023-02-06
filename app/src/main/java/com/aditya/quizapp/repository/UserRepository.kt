@@ -1,4 +1,4 @@
-package com.example.quizapplication.repository
+package com.aditya.quizapp.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +9,7 @@ import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectData
 import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTeacherDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
+import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
 
 class UserRepository(private val userApi: UserApi) {
 
@@ -27,6 +28,10 @@ class UserRepository(private val userApi: UserApi) {
     private val _responseTeacherAddSubject = MutableLiveData<ResponseAddSubjectTeacherDataModel?>()
     val responseTeacherAddSubject: LiveData<ResponseAddSubjectTeacherDataModel?>
         get() = _responseTeacherAddSubject
+
+    private val _responseTeacherSubjectChoice = MutableLiveData<ResponseSubjectChoice?>()
+    val responseTeacherSubjectChoice: LiveData<ResponseSubjectChoice?>
+        get() = _responseTeacherSubjectChoice
 
     suspend fun userResister(userRequest: UserRegisterRequest) {
         val result = userApi.signUp(userRequest)
@@ -68,6 +73,17 @@ class UserRepository(private val userApi: UserApi) {
             _responseTeacherAddSubject.postValue(result.body())
         } else {
             _responseTeacherDashBoard.postValue(null)
+        }
+    }
+
+    suspend fun teacherSubjectChoice() {
+        val result = userApi.teacherSubjectChoice()
+        if (result.isSuccessful && result.body() != null) {
+            _responseTeacherSubjectChoice.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseTeacherSubjectChoice.postValue(result.body())
+        } else {
+            _responseTeacherSubjectChoice.postValue(null)
         }
     }
 

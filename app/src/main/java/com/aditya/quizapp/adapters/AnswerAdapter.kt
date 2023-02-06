@@ -7,15 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
 
-class AnswerAdapter: RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder>() {
+class AnswerAdapter : RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder>() {
 
-    class AnswerViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class AnswerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var answers = view.findViewById<TextView>(R.id.answer)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.answers_item,parent,false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.answers_item, parent, false)
         return AnswerViewHolder(v)
     }
 

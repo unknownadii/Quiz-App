@@ -19,9 +19,9 @@ import com.aditya.quizapp.adapters.TeacherDashboardAdapter
 import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.databinding.FragmentTeacherDashboardBinding
 import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
-import com.example.quizapplication.repository.UserRepository
+import com.aditya.quizapp.repository.UserRepository
 import com.example.quizapplication.retrofit.RetrofitHelper
-import com.example.quizapplication.viewModels.AuthViewModel
+import com.aditya.quizapp.viewModels.AuthViewModel
 import com.example.quizapplication.viewModels.AuthViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -114,6 +114,7 @@ class TeacherDashboardFragment : Fragment() {
         }
     }
 
+
     private fun showBottomSheetDialog() {
 
         bottomDialog = BottomSheetDialog(requireActivity())
@@ -128,7 +129,7 @@ class TeacherDashboardFragment : Fragment() {
                 subjectNameToAdd = tvSubjectName.text.toString()
                 try {
                     viewModel.getTeacherAddSubject(
-                        "Bearer $accessTokens", TeacherAddSubjectDataModel(name = subjectNameToAdd)
+                        "Bearer $accessTokens", TeacherAddSubjectDataModel(subject = subjectNameToAdd)
                     )
                     setUpAddSubjectDataObserver()
                 } catch (e: Exception) {
@@ -138,19 +139,17 @@ class TeacherDashboardFragment : Fragment() {
                 // bottomDialog.dismiss()
             } else {
                 Toast.makeText(requireActivity(), "Enter Subject", Toast.LENGTH_SHORT).show()
-
             }
         }
         btnClose.setOnClickListener {
             bottomDialog.dismiss()
         }
+        
         bottomDialog.setCancelable(false)
-
         bottomDialog.setContentView(view)
         bottomDialog.show()
 
     }
-
     /*
     private fun setUpOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {

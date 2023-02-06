@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 
 data class TeacherAddSubjectDataModel(
-    @SerializedName("name")
-    val name: String
+    @SerializedName("subject")
+    val subject: String
 )

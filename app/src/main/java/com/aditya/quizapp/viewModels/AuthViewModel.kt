@@ -1,4 +1,4 @@
-package com.example.quizapplication.viewModels
+package com.aditya.quizapp.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -7,10 +7,12 @@ import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectData
 import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTeacherDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
-import com.example.quizapplication.repository.UserRepository
+import com.aditya.quizapp.repository.UserRepository
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
+import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
 class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     val userRegisterResponseLiveData: LiveData<AuthenticationResponseDataModel?>
@@ -24,6 +26,9 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     val responseTeacherSubjectNameLiveData: LiveData<ResponseAddSubjectTeacherDataModel?>
         get() = userRepository.responseTeacherAddSubject
+
+    val responseTeacherSubjectChoiceLiveData: LiveData<ResponseSubjectChoice?>
+        get() = userRepository.responseTeacherSubjectChoice
 
 
     fun registerUser(userRequest: UserRegisterRequest) {
@@ -43,9 +48,16 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
             userRepository.teacherDashboardData(accessToken)
         }
     }
+
     fun getTeacherAddSubject(accessToken: String, subjectName: TeacherAddSubjectDataModel) {
         viewModelScope.launch {
-            userRepository.teacherAddSubjectData(accessToken,subjectName)
+            userRepository.teacherAddSubjectData(accessToken, subjectName)
+        }
+    }
+
+    fun getTeacherSubjectChoice() {
+        viewModelScope.launch {
+            userRepository.teacherSubjectChoice()
         }
     }
 }

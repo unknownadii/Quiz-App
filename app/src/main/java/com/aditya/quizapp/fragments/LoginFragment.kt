@@ -13,10 +13,10 @@ import com.aditya.quizapp.R
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.databinding.FragmentLoginBinding
-import com.example.quizapplication.repository.UserRepository
+import com.aditya.quizapp.repository.UserRepository
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.aditya.quizapp.utils.Constants
-import com.example.quizapplication.viewModels.AuthViewModel
+import com.aditya.quizapp.viewModels.AuthViewModel
 import com.example.quizapplication.viewModels.AuthViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
