@@ -8,7 +8,7 @@ import com.aditya.quizapp.databinding.RvViewSubjectQuizBinding
 
 class ViewSubjectQuizAdapter(
     private val mList: List<String>,
-    private val onItemClick: ((position: Int) -> Unit)
+    private val onItemClick: ((position: Int,quizName:String) -> Unit)
 ) :
     RecyclerView.Adapter<ViewSubjectQuizAdapter.ViewSubjectQuizViewHolder>() {
 
@@ -22,7 +22,7 @@ class ViewSubjectQuizAdapter(
         val item = mList[position]
         holder.quizName.text = item
         holder.viewQuestion.setOnClickListener {
-            onItemClick.invoke(position)
+            onItemClick.invoke(position,item)
         }
     }
 

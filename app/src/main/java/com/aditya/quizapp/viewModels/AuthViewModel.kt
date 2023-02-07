@@ -11,10 +11,9 @@ import com.aditya.quizapp.repository.UserRepository
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
+import com.aditya.quizapp.models.subjectQuestion.ResponseSubjectQuestion
 import com.aditya.quizapp.models.viewSubjectQuiz.ResponseViewSubjectQuiz
 import kotlinx.coroutines.launch
-import retrofit2.Response
-import javax.security.auth.Subject
 
 class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     val userRegisterResponseLiveData: LiveData<AuthenticationResponseDataModel?>
@@ -34,6 +33,9 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     val responseViewSubjectQuizLiveData: LiveData<ResponseViewSubjectQuiz?>
         get() = userRepository.responseViewSubjectQuiz
+
+    val responseViewSubjectQuestionLiveData: LiveData<ResponseSubjectQuestion?>
+        get() = userRepository.responseSubjectQuestion
 
     fun registerUser(userRequest: UserRegisterRequest) {
         viewModelScope.launch {
@@ -68,6 +70,12 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     fun getSubjectQuiz(accessToken: String, subject: String) {
         viewModelScope.launch {
             userRepository.viewSubjectQuiz(accessToken, subject)
+        }
+    }
+
+    fun getSubjectQuestion(accessToken: String, subject: String, quizName: String) {
+        viewModelScope.launch {
+            userRepository.viewSubjectQuestion(accessToken, subject, quizName)
         }
     }
 }

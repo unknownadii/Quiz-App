@@ -37,7 +37,6 @@ class ViewSubjectQuizFragment : Fragment() {
     ): View? {
         binding = FragmentViewSubjectQuizBinding.inflate(layoutInflater)
 
-
         subjectName = arguments?.getString("SubjectName").toString()
         binding.tbViewSub.tvToolbarTitle.text = "$subjectName Quizzes"
 
@@ -71,10 +70,16 @@ class ViewSubjectQuizFragment : Fragment() {
     private fun getSubjectQuizObserver() {
         viewModel.responseViewSubjectQuizLiveData.observe(requireActivity()) {
             if (!it?.data.isNullOrEmpty()) {
-                val adapter = ViewSubjectQuizAdapter(it!!.data, onItemClick = { position ->
-                    Toast.makeText(requireActivity(), "$position Clicked", Toast.LENGTH_SHORT)
-                        .show()
-                })
+                val adapter =
+                    ViewSubjectQuizAdapter(it!!.data, onItemClick = { position, quizName ->
+                        val bundle = Bundle()
+                        bundle.putString("SubjectName", subjectName)
+                        bundle.putString("QuizName", quizName)
+                        findNavController().navigate(
+                            R.id.action_viewSubjectQuizFragment_to_quizQuestionFragment,
+                            bundle
+                        )
+                    })
                 binding.rvViewQuizTeacher.adapter = adapter
                 binding.noSubjectQuiz.visibility = View.GONE
                 binding.shimmerViewQuizTeacher.stopShimmer()

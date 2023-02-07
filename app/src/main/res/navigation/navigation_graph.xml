@@ -64,7 +64,8 @@
         android:id="@+id/mainSplashFragment"
         android:name="com.aditya.quizapp.fragments.MainSplashFragment"
         android:label="fragment_main_splash"
-        tools:layout="@layout/fragment_main_splash">
+        tools:layout="@layout/fragment_main_splash"
+        >
         <action
             android:id="@+id/action_mainSplashFragment_to_splashFragment"
             app:destination="@id/splashFragment" />
@@ -84,5 +85,14 @@
         android:id="@+id/viewSubjectQuizFragment"
         android:name="com.aditya.quizapp.fragments.ViewSubjectQuizFragment"
         android:label="fragment_view_subject_quiz"
-        tools:layout="@layout/fragment_view_subject_quiz" />
+        tools:layout="@layout/fragment_view_subject_quiz" >
+        <action
+            android:id="@+id/action_viewSubjectQuizFragment_to_quizQuestionFragment"
+            app:destination="@id/quizQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizQuestionFragment"
+        android:name="com.aditya.quizapp.fragments.QuizQuestionFragment"
+        android:label="fragment_quiz_question"
+        tools:layout="@layout/fragment_quiz_question" />
 </navigation>

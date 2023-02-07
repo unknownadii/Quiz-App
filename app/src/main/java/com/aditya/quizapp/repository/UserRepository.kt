@@ -10,6 +10,7 @@ import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTe
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
+import com.aditya.quizapp.models.subjectQuestion.ResponseSubjectQuestion
 import com.aditya.quizapp.models.viewSubjectQuiz.ResponseViewSubjectQuiz
 
 class UserRepository(private val userApi: UserApi) {
@@ -37,6 +38,10 @@ class UserRepository(private val userApi: UserApi) {
     private val _responseViewSubjectQuiz = MutableLiveData<ResponseViewSubjectQuiz?>()
     val responseViewSubjectQuiz: LiveData<ResponseViewSubjectQuiz?>
         get() = _responseViewSubjectQuiz
+
+    private val _responseSubjectQuestion = MutableLiveData<ResponseSubjectQuestion?>()
+    val responseSubjectQuestion: LiveData<ResponseSubjectQuestion?>
+        get() = _responseSubjectQuestion
 
     suspend fun userResister(userRequest: UserRegisterRequest) {
         val result = userApi.signUp(userRequest)
@@ -100,6 +105,17 @@ class UserRepository(private val userApi: UserApi) {
             _responseViewSubjectQuiz.postValue(result.body())
         } else {
             _responseViewSubjectQuiz.postValue(null)
+        }
+    }
+
+    suspend fun viewSubjectQuestion(accessTokens: String,subject:String,quizName:String) {
+        val result = userApi.viewSubjectQuestion(accessTokens,subject,quizName)
+        if (result.isSuccessful && result.body() != null) {
+            _responseSubjectQuestion.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseSubjectQuestion.postValue(result.body())
+        } else {
+            _responseSubjectQuestion.postValue(null)
         }
     }
 
