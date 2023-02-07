@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aditya.quizapp.R
 import com.aditya.quizapp.adapters.TeacherDashboardAdapter
@@ -86,7 +87,16 @@ class TeacherDashboardFragment : Fragment() {
                 shimmerLayout.startShimmer()
                 shimmerLayout.visibility = View.GONE
                 binding.rvTeachersDashBoard.visibility = View.VISIBLE
-                val adapter = TeacherDashboardAdapter(it.data)
+                val adapter = TeacherDashboardAdapter(it.data, onItemClick = { position, subject ->
+                    if (!subject.isNullOrEmpty()) {
+                        val bundle = Bundle()
+                        bundle.putString("SubjectName", subject)
+                        findNavController().navigate(
+                            R.id.action_teacherDashboardFragment_to_viewSubjectQuizFragment,
+                            bundle
+                        )
+                    }
+                })
                 //binding.progressBarTeacherDashboard.visibility = View.GONE
                 binding.rvTeachersDashBoard.adapter = adapter
                 //Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT).show()
@@ -129,14 +139,15 @@ class TeacherDashboardFragment : Fragment() {
                 subjectNameToAdd = tvSubjectName.text.toString()
                 try {
                     viewModel.getTeacherAddSubject(
-                        "Bearer $accessTokens", TeacherAddSubjectDataModel(subject = subjectNameToAdd)
+                        "Bearer $accessTokens",
+                        TeacherAddSubjectDataModel(subject = subjectNameToAdd)
                     )
                     setUpAddSubjectDataObserver()
                 } catch (e: Exception) {
                     Toast.makeText(requireActivity(), "Unable To Add Data", Toast.LENGTH_SHORT)
                         .show()
                 }
-                // bottomDialog.dismiss()
+                bottomDialog.dismiss()
             } else {
                 Toast.makeText(requireActivity(), "Enter Subject", Toast.LENGTH_SHORT).show()
             }
@@ -144,7 +155,7 @@ class TeacherDashboardFragment : Fragment() {
         btnClose.setOnClickListener {
             bottomDialog.dismiss()
         }
-        
+
         bottomDialog.setCancelable(false)
         bottomDialog.setContentView(view)
         bottomDialog.show()

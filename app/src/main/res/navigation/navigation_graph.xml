@@ -55,7 +55,11 @@
         android:id="@+id/teacherDashboardFragment"
         android:name="com.aditya.quizapp.Fragments.TeacherDashboardFragment"
         android:label="fragment_teacher_dashboard"
-        tools:layout="@layout/fragment_teacher_dashboard" />
+        tools:layout="@layout/fragment_teacher_dashboard" >
+        <action
+            android:id="@+id/action_teacherDashboardFragment_to_viewSubjectQuizFragment"
+            app:destination="@id/viewSubjectQuizFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mainSplashFragment"
         android:name="com.aditya.quizapp.fragments.MainSplashFragment"
@@ -76,4 +80,9 @@
         android:name="com.aditya.quizapp.fragments.StudentDashboard"
         android:label="fragment_student_dashboard"
         tools:layout="@layout/fragment_student_dashboard" />
+    <fragment
+        android:id="@+id/viewSubjectQuizFragment"
+        android:name="com.aditya.quizapp.fragments.ViewSubjectQuizFragment"
+        android:label="fragment_view_subject_quiz"
+        tools:layout="@layout/fragment_view_subject_quiz" />
 </navigation>

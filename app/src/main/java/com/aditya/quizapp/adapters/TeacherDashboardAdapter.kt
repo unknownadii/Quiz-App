@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
 
 class TeacherDashboardAdapter(
-    private val mList: List<String>
+    private val mList: List<String>,
+    private val onItemClick: ((position: Int, subject: String) -> Unit)
 ) :
     RecyclerView.Adapter<TeacherDashboardAdapter.TeacherViewHolder>() {
 
@@ -29,6 +30,9 @@ class TeacherDashboardAdapter(
         holder.btnAddQuestion.setOnClickListener {
 
         }
+        holder.btnViewQuestion.setOnClickListener {
+            onItemClick.invoke(position, holder.tvSubject.text.toString())
+        }
     }
 
     override fun getItemCount(): Int {
@@ -37,8 +41,8 @@ class TeacherDashboardAdapter(
 
     class TeacherViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var tvSubject: TextView = view.findViewById(R.id.subject_title)
-        var btnViewQuestion: Button = view.findViewById(R.id.button_add_s)
-        var btnAddQuestion: Button = view.findViewById(R.id.button_add_q)
+        var btnViewQuestion: Button = view.findViewById(R.id.button_add_q)
+        var btnAddQuestion: Button = view.findViewById(R.id.button_add_s)
 
     }
 }

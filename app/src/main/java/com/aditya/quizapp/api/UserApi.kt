@@ -8,11 +8,14 @@ import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
 import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
+import com.aditya.quizapp.models.viewSubjectQuiz.ResponseViewSubjectQuiz
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
+import javax.security.auth.Subject
 
 interface UserApi {
     @POST("/register")
@@ -42,5 +45,11 @@ interface UserApi {
     ): Response<ResponseAddSubjectTeacherDataModel>
 
     @GET("/subjectNames")
-    suspend fun teacherSubjectChoice():Response<ResponseSubjectChoice>
+    suspend fun teacherSubjectChoice(): Response<ResponseSubjectChoice>
+
+    @GET("/viewQuizes/{subject}")
+    suspend fun viewSubjectQuiz(
+        @Header("Authorization") accessTokens: String,
+        @Path("subject") subject: String
+    ): Response<ResponseViewSubjectQuiz>
 }
