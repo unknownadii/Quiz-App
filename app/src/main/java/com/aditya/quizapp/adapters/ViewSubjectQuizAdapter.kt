@@ -21,6 +21,7 @@ class ViewSubjectQuizAdapter(
     override fun onBindViewHolder(holder: ViewSubjectQuizViewHolder, position: Int) {
         val item = mList[position]
         holder.quizName.text = item
+
         holder.viewQuestion.setOnClickListener {
             onItemClick.invoke(position,item)
         }

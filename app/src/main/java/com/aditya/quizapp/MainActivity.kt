@@ -2,9 +2,6 @@ package com.aditya.quizapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import com.aditya.quizapp.Fragments.TeacherDashboardFragment
 import com.aditya.quizapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,7 +13,4 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
 }

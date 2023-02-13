@@ -3,6 +3,8 @@ package com.aditya.quizapp.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aditya.quizapp.models.addQuestionsToQuiz.request.RequestAddQuizQuestion
+import com.aditya.quizapp.models.addQuestionsToQuiz.response.ResponseAddQuizQuestion
 import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
 import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTeacherDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
@@ -10,6 +12,7 @@ import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationRespons
 import com.aditya.quizapp.repository.UserRepository
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
+import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
 import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
 import com.aditya.quizapp.models.subjectQuestion.ResponseSubjectQuestion
 import com.aditya.quizapp.models.viewSubjectQuiz.ResponseViewSubjectQuiz
@@ -21,6 +24,9 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     val userLoginResponseLiveData: LiveData<AuthenticationResponseDataModel?>
         get() = userRepository.userLoginResponseLiveData
+
+    val userLogoutResponseLiveData: LiveData<Any?>
+        get() = userRepository.userLogoutResponseLiveData
 
     val responseTeacherDashboardLiveData: LiveData<ResponseTeacherDashboardDataModel?>
         get() = userRepository.responseTeacherDashBoard
@@ -37,6 +43,12 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     val responseViewSubjectQuestionLiveData: LiveData<ResponseSubjectQuestion?>
         get() = userRepository.responseSubjectQuestion
 
+    val responseAddQuizQuestionLiveData: LiveData<ResponseAddQuizQuestion?>
+        get() = userRepository.responseAddQuizQuestion
+
+    val responseStudentDashboardLiveData: LiveData<StudentDashboardModel?>
+        get() = userRepository.responseStudentDashBoard
+
     fun registerUser(userRequest: UserRegisterRequest) {
         viewModelScope.launch {
             userRepository.userResister(userRequest)
@@ -46,6 +58,12 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     fun loginUser(loginRequest: RequestAuthenticationDataModel) {
         viewModelScope.launch {
             userRepository.userLogin(loginRequest)
+        }
+    }
+
+    fun logoutUser(accessToken: String, refreshToken: String) {
+        viewModelScope.launch {
+            userRepository.userLogout(accessToken, refreshToken)
         }
     }
 
@@ -76,6 +94,23 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     fun getSubjectQuestion(accessToken: String, subject: String, quizName: String) {
         viewModelScope.launch {
             userRepository.viewSubjectQuestion(accessToken, subject, quizName)
+        }
+    }
+
+    fun addQuizQuestion(
+        accessToken: String,
+        subjectName: String,
+        question: RequestAddQuizQuestion
+    ) {
+        viewModelScope.launch {
+            userRepository.addSubjectQuestion(accessToken, subjectName, question)
+        }
+    }
+
+
+    fun getStudentDashBoard(accessToken: String) {
+        viewModelScope.launch {
+            userRepository.studentDashboardData(accessToken)
         }
     }
 }

@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.aditya.quizapp.R
 
 class TeacherDashboardAdapter(
     private val mList: List<String>,
-    private val onItemClick: ((position: Int, subject: String) -> Unit)
+    private val onItemClickViewQuiz: ((position: Int, subject: String) -> Unit),
+    private val onItemClickAddQuestion: ((position: Int, subject: String) -> Unit)
 ) :
     RecyclerView.Adapter<TeacherDashboardAdapter.TeacherViewHolder>() {
 
@@ -24,14 +24,11 @@ class TeacherDashboardAdapter(
     override fun onBindViewHolder(holder: TeacherViewHolder, position: Int) {
         val items = mList[position]
         holder.tvSubject.text = items
-        holder.btnViewQuestion.setOnClickListener {
-            // Navigation.findNavController(it).navigate(R.id.action_teachersDashboard_to_teacherFragment)
-        }
         holder.btnAddQuestion.setOnClickListener {
-
+            onItemClickAddQuestion.invoke(position, holder.tvSubject.text.toString())
         }
         holder.btnViewQuestion.setOnClickListener {
-            onItemClick.invoke(position, holder.tvSubject.text.toString())
+            onItemClickViewQuiz.invoke(position, holder.tvSubject.text.toString())
         }
     }
 

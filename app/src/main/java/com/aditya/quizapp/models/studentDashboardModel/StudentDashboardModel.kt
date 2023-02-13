@@ -2,6 +2,5 @@ package com.aditya.quizapp.models.studentDashboardModel
 
 data class StudentDashboardModel(
     val Message: String,
-    val `data`: Data,
-    val sub: List<String>
+    val data: List<String>
 )

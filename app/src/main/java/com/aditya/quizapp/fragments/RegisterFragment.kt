@@ -144,11 +144,13 @@ class RegisterFragment : Fragment() {
                 dialogBinding.svSubjectChoice.stopShimmer()
                 dialogBinding.svSubjectChoice.visibility = View.GONE
                 Snackbar.make(dialogBinding.root, it.Message, Snackbar.LENGTH_SHORT).show()
+                dialog.dismiss()
             } else {
                 dialogBinding.svSubjectChoice.stopShimmer()
                 dialogBinding.svSubjectChoice.visibility = View.GONE
                 Snackbar.make(dialogBinding.root, "Something went Wrong", Snackbar.LENGTH_SHORT)
                     .show()
+                dialog.dismiss()
             }
         }
     }
@@ -225,12 +227,14 @@ class RegisterFragment : Fragment() {
         dialog.setContentView(dialogBinding.root)
         dialogBinding.svSubjectChoice.visibility = View.VISIBLE
         dialogBinding.svSubjectChoice.startShimmer()
+
         try {
             viewModel.getTeacherSubjectChoice()
             setUpObserverSubjectChoice()
         } catch (e: Exception) {
             dialogBinding.svSubjectChoice.stopShimmer()
             Snackbar.make(binding.root, e.message.toString(), Snackbar.LENGTH_SHORT).show()
+            dialog.dismiss()
         }
 
         dialogBinding.btnSubjectCancel.setOnClickListener {

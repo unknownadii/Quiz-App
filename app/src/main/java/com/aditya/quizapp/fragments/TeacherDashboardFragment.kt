@@ -1,4 +1,4 @@
-package com.aditya.quizapp.Fragments
+package com.aditya.quizapp.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.lifecycle.ViewModelProvider
@@ -38,6 +39,8 @@ class TeacherDashboardFragment : Fragment() {
     private lateinit var sharePref: SharedPreferences
     private var subjectNameToAdd = ""
     private lateinit var shimmerLayout: ShimmerFrameLayout
+    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var refreshTokens: String
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,6 +57,7 @@ class TeacherDashboardFragment : Fragment() {
         viewModel =
             ViewModelProvider(this, AuthViewModelFactory(repository))[AuthViewModel::class.java]
 
+        setUpNavigationDrawer()
         return binding.root
     }
 
@@ -65,6 +69,8 @@ class TeacherDashboardFragment : Fragment() {
 
         sharePref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
         accessTokens = sharePref.getString(getString(R.string.access_token), null).toString()
+        refreshTokens = sharePref.getString(getString(R.string.refresh_token), null).toString()
+
 
         try {
             //  binding.progressBarTeacherDashboard.visibility = View.VISIBLE
@@ -76,6 +82,7 @@ class TeacherDashboardFragment : Fragment() {
             showBottomSheetDialog()
         }
         setUpTeacherDashBoardObserver()
+        setUpLogoutObserver()
     }
 
     private fun setUpTeacherDashBoardObserver() {
@@ -87,16 +94,26 @@ class TeacherDashboardFragment : Fragment() {
                 shimmerLayout.startShimmer()
                 shimmerLayout.visibility = View.GONE
                 binding.rvTeachersDashBoard.visibility = View.VISIBLE
-                val adapter = TeacherDashboardAdapter(it.data, onItemClick = { position, subject ->
-                    if (!subject.isNullOrEmpty()) {
-                        val bundle = Bundle()
-                        bundle.putString("SubjectName", subject)
-                        findNavController().navigate(
-                            R.id.action_teacherDashboardFragment_to_viewSubjectQuizFragment,
-                            bundle
-                        )
-                    }
-                })
+                val adapter =
+                    TeacherDashboardAdapter(it.data, onItemClickViewQuiz = { position, subject ->
+                        if (!subject.isNullOrEmpty()) {
+                            val bundle = Bundle()
+                            bundle.putString("SubjectName", subject)
+                            findNavController().navigate(
+                                R.id.action_teacherDashboardFragment_to_viewSubjectQuizFragment,
+                                bundle
+                            )
+                        }
+                    }, onItemClickAddQuestion = { position, subject ->
+                        if (!subject.isNullOrEmpty()) {
+                            val bundle = Bundle()
+                            bundle.putString("SubjectName", subject)
+                            findNavController().navigate(
+                                R.id.action_teacherDashboardFragment_to_addQuestionsFragment,
+                                bundle
+                            )
+                        }
+                    })
                 //binding.progressBarTeacherDashboard.visibility = View.GONE
                 binding.rvTeachersDashBoard.adapter = adapter
                 //Toast.makeText(requireContext(), it.data.toString(), Toast.LENGTH_SHORT).show()
@@ -114,12 +131,15 @@ class TeacherDashboardFragment : Fragment() {
         viewModel.responseTeacherSubjectNameLiveData.observe(requireActivity()) {
             if (it != null) {
                 Toast.makeText(requireActivity(), it.Message, Toast.LENGTH_SHORT).show()
+                viewModel.getTeacherDashBoard("Bearer $accessTokens")
+                bottomDialog.dismiss()
             } else {
                 Toast.makeText(
-                    requireActivity(),
+                    bottomDialog.context,
                     "Something went wrong",
                     Toast.LENGTH_SHORT
                 ).show()
+                bottomDialog.dismiss()
             }
         }
     }
@@ -160,6 +180,46 @@ class TeacherDashboardFragment : Fragment() {
         bottomDialog.setContentView(view)
         bottomDialog.show()
 
+    }
+
+    private fun setUpNavigationDrawer() {
+        // setting up toggle btn and
+        toggle = ActionBarDrawerToggle(
+            activity,
+            binding.drawerLayout,
+            binding.toolbar.toolbar,
+            R.string.open,
+            R.string.close
+        )
+
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        binding.toolbar.toolbar.title = "Quiz App"
+
+        //handling click for content inside drawer layout
+        binding.navViewTeacherDash.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.userProfile -> Toast.makeText(requireActivity(), "Profile", Toast.LENGTH_SHORT)
+                    .show()
+                R.id.userLogout -> {
+                    viewModel.logoutUser("Bearer $accessTokens", refreshTokens)
+                }
+            }
+            true
+        }
+    }
+
+    private fun setUpLogoutObserver() {
+        viewModel.userLogoutResponseLiveData.observe(requireActivity()) {
+            if (it == null) {
+                findNavController().navigate(R.id.action_teacherDashboardFragment_to_splashFragment)
+                sharePref.edit().remove(getString(R.string.refresh_token))
+                    .apply()
+                sharePref.edit().remove(getString(R.string.access_token)).apply()
+                sharePref.edit().remove(getString(R.string.person_type)).apply()
+                Toast.makeText(requireActivity(), "Logging Out", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
     /*
     private fun setUpOnBackPressed() {

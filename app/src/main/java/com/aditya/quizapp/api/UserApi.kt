@@ -1,5 +1,7 @@
 package com.aditya.quizapp.api
 
+import com.aditya.quizapp.models.addQuestionsToQuiz.request.RequestAddQuizQuestion
+import com.aditya.quizapp.models.addQuestionsToQuiz.response.ResponseAddQuizQuestion
 import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
 import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTeacherDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
@@ -27,6 +29,12 @@ interface UserApi {
     suspend fun signIn(
         @Body loginRequest: RequestAuthenticationDataModel
     ): Response<AuthenticationResponseDataModel>
+
+    @POST("/logout")
+    suspend fun logout(
+        @Header("Authorization") accessTokens: String,
+        @Body refresh: String
+    ): Response<Any>
 
     @GET("/studentDashboard")
     suspend fun studentDashboard(
@@ -59,4 +67,11 @@ interface UserApi {
         @Path("subject") subject: String,
         @Path("quizName") quizName: String
     ): Response<ResponseSubjectQuestion>
+
+    @POST("/addQuiz/{subjectName}")
+    suspend fun addSubjectQuestion(
+        @Header("Authorization") accessTokens: String,
+        @Path("subjectName") subjectName: String,
+        @Body questions: RequestAddQuizQuestion
+    ): Response<ResponseAddQuizQuestion>
 }

@@ -16,7 +16,6 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/subject_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -25,21 +24,19 @@
             android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_add_q"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="12sp"
-            android:background="@color/light_grey" />
+            android:background="@color/light_grey"
+            android:textSize="12sp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_add_s"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:textSize="14sp"
+            android:background="@color/light_grey"
             android:padding="10dp"
-            android:background="@color/light_grey" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
