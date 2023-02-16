@@ -12,7 +12,6 @@ import com.aditya.quizapp.R
 import com.aditya.quizapp.databinding.FragmentSplashBinding
 import com.google.android.material.snackbar.Snackbar
 
-
 class SplashFragment : Fragment() {
     private lateinit var binding: FragmentSplashBinding
     override fun onCreateView(
@@ -34,7 +33,7 @@ class SplashFragment : Fragment() {
                 bundle.apply {
                     putString("PersonType", binding.autoCompleteTextView.text.toString())
                 }
-                findNavController().navigate(R.id.action_splashFragment_to_loginFragment,bundle)
+                findNavController().navigate(R.id.action_splashFragment_to_loginFragment, bundle)
             }
         }
 
@@ -47,13 +46,15 @@ class SplashFragment : Fragment() {
                 ).show()
             } else {
                 bundle.apply {
-                    Log.d("Aditya",binding.autoCompleteTextView.text.toString())
+                    Log.d("Aditya", binding.autoCompleteTextView.text.toString())
                     putString("PersonType", binding.autoCompleteTextView.text.toString())
                 }
-                findNavController().navigate(R.id.action_splashFragment_to_registerFragment2,bundle)
+                findNavController().navigate(
+                    R.id.action_splashFragment_to_registerFragment2,
+                    bundle
+                )
             }
         }
-
         return binding.root
     }
 
@@ -66,6 +67,5 @@ class SplashFragment : Fragment() {
         val autocompleteTV = binding.autoCompleteTextView
         // set adapter to the autocomplete tv to the arrayAdapter
         autocompleteTV.setAdapter(arrayAdapter)
-
     }
 }

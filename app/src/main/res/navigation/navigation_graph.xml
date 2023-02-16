@@ -99,6 +99,9 @@
             app:destination="@id/splashFragment"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_studentDashboard_to_subjectQuizStudent"
+            app:destination="@id/subjectQuizStudent" />
     </fragment>
     <fragment
         android:id="@+id/viewSubjectQuizFragment"
@@ -114,4 +117,29 @@
         android:name="com.aditya.quizapp.fragments.QuizQuestionFragment"
         android:label="fragment_quiz_question"
         tools:layout="@layout/fragment_quiz_question" />
+    <fragment
+        android:id="@+id/subjectQuizStudent"
+        android:name="com.aditya.quizapp.fragments.SubjectQuizStudent"
+        android:label="fragment_subject_quiz_student"
+        tools:layout="@layout/fragment_subject_quiz_student" >
+        <action
+            android:id="@+id/action_subjectQuizStudent_to_studentFragment"
+            app:destination="@id/studentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/studentFragment"
+        android:name="com.aditya.quizapp.fragments.StudentFragment"
+        android:label="fragment_student"
+        tools:layout="@layout/fragment_student" >
+        <action
+            android:id="@+id/action_studentFragment_to_scoreBoard"
+            app:destination="@id/scoreBoard"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/scoreBoard"
+        android:name="com.aditya.quizapp.fragments.ScoreBoard"
+        android:label="fragment_score_board"
+        tools:layout="@layout/fragment_score_board" />
+
 </navigation>

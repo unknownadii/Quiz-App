@@ -1,6 +1,5 @@
 package com.aditya.quizapp.fragments
 
-
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
@@ -30,7 +29,6 @@ import com.example.quizapplication.retrofit.RetrofitHelper
 import com.example.quizapplication.viewModels.AuthViewModelFactory
 import com.google.android.material.snackbar.Snackbar
 
-
 class StudentDashboard : Fragment(), OnItemClickListener {
     private lateinit var binding: FragmentStudentDashboardBinding
     private lateinit var viewModel: AuthViewModel
@@ -39,11 +37,13 @@ class StudentDashboard : Fragment(), OnItemClickListener {
     private lateinit var sharePref: SharedPreferences
     private lateinit var toggle: ActionBarDrawerToggle
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         binding = FragmentStudentDashboardBinding.inflate(layoutInflater)
+
         val interfaceApi = RetrofitHelper.getInstance().create(UserApi::class.java)
         val repository = UserRepository(interfaceApi)
         setUpNavigationDrawer()
@@ -114,10 +114,15 @@ class StudentDashboard : Fragment(), OnItemClickListener {
     private fun setUpTeacherDashBoardObserver() {
         viewModel.responseStudentDashboardLiveData.observe(requireActivity()) {
             if (!it?.data.isNullOrEmpty()) {
-                val adapter = StudentDashboardAdapter(it!!.data, onItemClick = { position ->
-                    Toast.makeText(requireActivity(), "$position Clicked", Toast.LENGTH_SHORT)
-                        .show()
-                })
+                val adapter =
+                    StudentDashboardAdapter(it!!.data, onItemClick = { position, subjectName ->
+                        val bundle = Bundle()
+                        bundle.putString("SubjectName", subjectName)
+                        findNavController().navigate(
+                            R.id.action_studentDashboard_to_subjectQuizStudent,
+                            bundle
+                        )
+                    })
                 binding.rvStudentDashBoard.adapter = adapter
                 binding.shimmerViewContainerDashboard.stopShimmer()
                 binding.shimmerViewContainerDashboard.visibility = View.GONE

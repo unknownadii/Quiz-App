@@ -7,7 +7,7 @@ import com.aditya.quizapp.databinding.RvViewSubjectQuizBinding
 
 class StudentDashboardAdapter(
     private val mList: List<String>,
-    private val onItemClick: ((position: Int) -> Unit)
+    private val onItemClick: ((position: Int, quizName: String) -> Unit)
 ) :
     RecyclerView.Adapter<StudentDashboardAdapter.SubjectViewHolder>() {
 
@@ -20,7 +20,7 @@ class StudentDashboardAdapter(
     override fun onBindViewHolder(holder: SubjectViewHolder, position: Int) {
         holder.subjectName.text = mList[position]
         holder.btnShowDetails.setOnClickListener {
-            onItemClick.invoke(position)
+            onItemClick.invoke(position, mList[position])
         }
     }
 

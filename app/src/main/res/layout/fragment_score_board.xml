@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ScoreBoard">
+    tools:context=".fragments.ScoreBoard">
+
+    <include
+        android:id="@+id/tbFinishedQuiz"
+        layout="@layout/toolbar_common" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        app:layout_constraintTop_toBottomOf="@+id/tbFinishedQuiz">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/image_card"
@@ -41,12 +44,12 @@
             android:id="@+id/cong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15sp"
+            android:background="@color/teal_200"
             android:gravity="center"
             android:text="Congratulation"
-            android:textStyle="italic"
             android:textSize="30sp"
-            android:background="@color/teal_200"
-            android:layout_marginBottom="15sp"
+            android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_card" />
@@ -56,17 +59,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Your Score  is"
-            android:textStyle="bold"
+            android:text="Your Score is"
             android:textSize="30sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cong" />
 
-
         <TextView
+            android:id="@+id/scoreStudent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="37"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -74,10 +76,5 @@
             app:layout_constraintStart_toEndOf="@id/score_text"
             app:layout_constraintTop_toBottomOf="@id/cong" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

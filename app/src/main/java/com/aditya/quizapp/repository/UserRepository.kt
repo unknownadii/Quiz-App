@@ -14,6 +14,7 @@ import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboa
 import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
 import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
 import com.aditya.quizapp.models.subjectQuestion.ResponseSubjectQuestion
+import com.aditya.quizapp.models.submitQuestionStudent.ResponseSubmitQuizStudent
 import com.aditya.quizapp.models.viewSubjectQuiz.ResponseViewSubjectQuiz
 
 class UserRepository(private val userApi: UserApi) {
@@ -59,6 +60,14 @@ class UserRepository(private val userApi: UserApi) {
     val responseStudentDashBoard: LiveData<StudentDashboardModel?>
         get() = _responseStudentDashBoard
 
+    private val _responseStudentSubjectQuiz = MutableLiveData<StudentDashboardModel?>()
+    val responseStudentSubjectQuiz: LiveData<StudentDashboardModel?>
+        get() = _responseStudentSubjectQuiz
+
+    private val _responseStudentQuizQuestion = MutableLiveData<ResponseSubmitQuizStudent?>()
+    val responseStudentQuizQuestion: LiveData<ResponseSubmitQuizStudent?>
+        get() = _responseStudentQuizQuestion
+
     suspend fun userResister(userRequest: UserRegisterRequest) {
         val result = userApi.signUp(userRequest)
         val data = result.body()
@@ -79,7 +88,7 @@ class UserRepository(private val userApi: UserApi) {
     }
 
     suspend fun userLogout(accessTokens: String, refreshToken: String) {
-        val result = userApi.logout(accessTokens,refreshToken)
+        val result = userApi.logout(accessTokens, refreshToken)
         if (result.isSuccessful && result.body() != null) {
             _userLogoutResponseLiveData.postValue(result.body())
         } else {
@@ -171,4 +180,33 @@ class UserRepository(private val userApi: UserApi) {
         }
     }
 
+    suspend fun getSubjectQuizStudent(
+        accessTokens: String,
+        subjectName: String,
+    ) {
+        val result = userApi.getSubjectQuizStudent(accessTokens, subjectName)
+        if (result.isSuccessful && result.body() != null) {
+            _responseStudentSubjectQuiz.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseStudentSubjectQuiz.postValue(result.body())
+        } else {
+            _responseStudentSubjectQuiz.postValue(null)
+        }
+    }
+
+    suspend fun getQuizQuestionStudent(
+        accessTokens: String,
+        subjectName: String,
+        quizName: String,
+        page: Int
+    ) {
+        val result = userApi.getQuizQuestionStudent(accessTokens, subjectName, quizName, page)
+        if (result.isSuccessful && result.body() != null) {
+            _responseStudentQuizQuestion.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseStudentQuizQuestion.postValue(result.body())
+        } else {
+            _responseStudentQuizQuestion.postValue(null)
+        }
+    }
 }

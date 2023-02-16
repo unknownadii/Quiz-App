@@ -97,7 +97,7 @@ class RegisterFragment : Fragment() {
         binding.btnRegister.setOnClickListener {
             if (binding.tvNameRegister.text.isNullOrEmpty()) {
                 Snackbar.make(it, "Please Enter Name", Snackbar.LENGTH_SHORT).show()
-            } else if (binding.tvChooseSubject.text.isNullOrEmpty() || listSubject.isNullOrEmpty()) {
+            } else if ((personType == "Teacher" && binding.tvChooseSubject.text.isNullOrEmpty()) || (personType == "Teacher" && listSubject.isNullOrEmpty())) {
                 Snackbar.make(it, "Please Choose Subject", Snackbar.LENGTH_SHORT).show()
             } else if (binding.tvPasswordRegister.text.isNullOrEmpty()) {
                 Snackbar.make(it, "Please Enter Password", Snackbar.LENGTH_SHORT).show()
