@@ -97,17 +97,18 @@
         android:name="com.aditya.quizapp.fragments.StudentDashboard"
         android:label="fragment_student_dashboard"
         tools:layout="@layout/fragment_student_dashboard">
-        <action
-            android:id="@+id/action_studentDashboard_to_splashFragment"
-            app:destination="@id/splashFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
+
         <action
             android:id="@+id/action_studentDashboard_to_subjectQuizStudent"
             app:destination="@id/subjectQuizStudent" />
         <action
             android:id="@+id/action_studentDashboard_to_leaderBoardFragment"
             app:destination="@id/leaderBoardFragment" />
+        <action
+            android:id="@+id/action_studentDashboard_to_splashFragment"
+            app:destination="@id/splashFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/viewSubjectQuizFragment"

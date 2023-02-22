@@ -61,18 +61,11 @@ class AddQuestionsFragment : Fragment() {
             findNavController().popBackStack()
         }
         binding.tbAddQuestion.btnUploadQuestion.setOnClickListener {
-//            if (questionsList.size < 5) {
-//                Snackbar.make(
-//                    binding.root,
-//                    "Please add atleast 5 Questions ",
-//                    Snackbar.LENGTH_SHORT
-//                ).show()
-//            } else {
+            binding.pbAddQuestions.visibility = View.VISIBLE
             viewModel.addQuizQuestion(
                 "Bearer $accessTokens", subjectName,
                 RequestAddQuizQuestion("Hard", questionsList)
             )
-
         }
         binding.rvAddDynamicQuestions.layoutManager = LinearLayoutManager(requireActivity())
 
@@ -122,9 +115,12 @@ class AddQuestionsFragment : Fragment() {
     private fun setUpAddQuestionObserver() {
         viewModel.responseAddQuizQuestionLiveData.observe(requireActivity()) {
             if (it != null) {
+                binding.pbAddQuestions.visibility = View.GONE
                 Snackbar.make(binding.root, it.Message, Snackbar.LENGTH_SHORT).show()
+                findNavController().popBackStack()
                 Log.d("AddQuestion Data", it.Message)
             } else {
+                binding.pbAddQuestions.visibility = View.GONE
                 Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
             }
         }

@@ -24,6 +24,7 @@ class ScoreBoard : Fragment() {
         val score = arguments?.getString("YourScore").toString()
         binding.scoreStudent.text = score
 
+        // handling the back button pressed on android
         var callback: OnBackPressedCallback =
             object : OnBackPressedCallback(true /* enabled by default */) {
                 override fun handleOnBackPressed() {

@@ -21,6 +21,7 @@ import com.aditya.quizapp.viewModels.AuthViewModel
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.example.quizapplication.viewModels.AuthViewModelFactory
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 class LeaderBoardScoreFragment : Fragment() {
     private lateinit var binding: FragmentLeaderBoardScoreBinding
@@ -69,15 +70,18 @@ class LeaderBoardScoreFragment : Fragment() {
     private fun setUpLeaderScoreQuizObserver() {
         viewModel.responseLeaderBoardScoreLiveData.observe(requireActivity()) { it ->
             if (!it?.data.isNullOrEmpty()) {
+
+                // sorting the data of arraylist
+                val sortedList = it!!.data.sortedWith(compareBy({ it.scores }, { it.scores }))
                 val adapter =
-                    LeaderBoardScoreAdapter(it!!.data, onItemClick = { position, quizName ->
+                    LeaderBoardScoreAdapter(sortedList, onItemClick = { position, quizName ->
                     })
                 binding.rvLeaderBoardScore.adapter = adapter
                 binding.rvLeaderBoardScore.visibility = View.VISIBLE
             } else if (it?.data == null || it.data.isEmpty()) {
                 binding.llContainerLeaderBoardScore.visibility = View.GONE
                 binding.noSubjectScore.visibility = View.VISIBLE
-                binding.noSubjectScore.text = "Give the quiz to get LeaderBoard"
+                binding.noSubjectScore.text = "No Quiz History Found"
             } else {
                 Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
                 binding.llContainerLeaderBoardScore.visibility = View.GONE

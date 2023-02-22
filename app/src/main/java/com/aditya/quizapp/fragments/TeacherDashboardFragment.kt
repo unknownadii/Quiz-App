@@ -21,7 +21,9 @@ import com.aditya.quizapp.adapters.TeacherDashboardAdapter
 import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.databinding.FragmentTeacherDashboardBinding
 import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
+import com.aditya.quizapp.models.logoutDataModel.LogoutDataModel
 import com.aditya.quizapp.repository.UserRepository
+import com.aditya.quizapp.utils.Constants.navigateSafe
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.aditya.quizapp.viewModels.AuthViewModel
 import com.example.quizapplication.viewModels.AuthViewModelFactory
@@ -205,7 +207,7 @@ class TeacherDashboardFragment : Fragment() {
                 R.id.userProfile -> Toast.makeText(requireActivity(), "Profile", Toast.LENGTH_SHORT)
                     .show()
                 R.id.userLogout -> {
-                    viewModel.logoutUser("Bearer $accessTokens", refreshTokens)
+                    viewModel.logoutUser("Bearer $accessTokens", LogoutDataModel(refreshTokens))
                 }
             }
             true
@@ -214,29 +216,19 @@ class TeacherDashboardFragment : Fragment() {
 
     private fun setUpLogoutObserver() {
         viewModel.userLogoutResponseLiveData.observe(requireActivity()) {
-            if (it == null) {
-                findNavController().navigate(R.id.action_teacherDashboardFragment_to_splashFragment)
-                sharePref.edit().remove(getString(R.string.refresh_token))
-                    .apply()
-                sharePref.edit().remove(getString(R.string.access_token)).apply()
-                sharePref.edit().remove(getString(R.string.person_type)).apply()
-                Toast.makeText(requireActivity(), "Logging Out", Toast.LENGTH_SHORT).show()
+            if (it != null) {
+                val sharedPreferences = sharePref.edit()
+                sharedPreferences.clear()
+                sharedPreferences.commit()
+                Toast.makeText(requireActivity(), "Logged Out", Toast.LENGTH_SHORT).show()
+                findNavController().navigateSafe(R.id.action_teacherDashboardFragment_to_splashFragment)
+                /* .navigate(R.id.action_studentDashboard_to_splashFragment)
+                  navController?.navigateUp()
+              navController?.navigate(R.id.action_studentDashboard_to_splashFragment)
+                 */
+            } else {
+                Snackbar.make(binding.root, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
-    /*
-    private fun setUpOnBackPressed() {
-        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (isEnabled) {
-                    Toast.makeText(requireContext(), "GoBack", Toast.LENGTH_SHORT).show()
-                    isEnabled = false
-                    requireActivity().onBackPressed()
-                }
-            }
-
-        })
-    }
-
-     */
 }

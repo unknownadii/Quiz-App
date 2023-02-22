@@ -21,9 +21,9 @@ class LeaderBoardScoreAdapter(
 
     override fun onBindViewHolder(holder: LeaderBoardScoreViewHolder, position: Int) {
         val item = mList[position]
-        holder.studentId.text = item.id.toString()
+        holder.studentId.text = (position + 1).toString()
         holder.studentName.text = "Student ${item.student_id}"
-        holder.studentScore.text = item.score.toString()
+        holder.studentScore.text = item.scores.toString()
     }
 
     override fun getItemCount(): Int {

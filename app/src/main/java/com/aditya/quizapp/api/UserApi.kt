@@ -7,6 +7,8 @@ import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTe
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.logoutDataModel.LogoutDataModel
+import com.aditya.quizapp.models.logoutDataModel.ResponseLogoutDataModel
 import com.aditya.quizapp.models.responseLeaderboardScore.ResponseLeaderBoardScore
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
@@ -33,8 +35,8 @@ interface UserApi {
     @POST("/logout")
     suspend fun logout(
         @Header("Authorization") accessTokens: String,
-        @Body refresh: String
-    ): Response<Any>
+        @Body refresh: LogoutDataModel
+    ): Response<ResponseLogoutDataModel>
 
     @GET("/studentDashboard")
     suspend fun studentDashboard(
@@ -101,7 +103,7 @@ interface UserApi {
         @Header("Authorization") accessTokens: String
     ): Response<StudentDashboardModel>
 
-    @GET("/startQuiz/{subjectName}")
+    @GET("/leaderboard/{subjectName}")
     suspend fun getLeaderBoardQuiz(
         @Header("Authorization") accessTokens: String,
         @Path("subjectName") subjectName: String,

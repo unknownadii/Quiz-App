@@ -10,6 +10,8 @@ import com.aditya.quizapp.models.addQuestionsToQuiz.response.ResponseAddQuizQues
 import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
 import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTeacherDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.logoutDataModel.LogoutDataModel
+import com.aditya.quizapp.models.logoutDataModel.ResponseLogoutDataModel
 import com.aditya.quizapp.models.responseLeaderboardScore.ResponseLeaderBoardScore
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
@@ -31,8 +33,8 @@ class UserRepository(private val userApi: UserApi) {
         get() = _userLoginResponseLiveData
 
 
-    private val _userLogoutResponseLiveData = MutableLiveData<Any?>()
-    val userLogoutResponseLiveData: LiveData<Any?>
+    private val _userLogoutResponseLiveData = MutableLiveData<ResponseLogoutDataModel?>()
+    val userLogoutResponseLiveData: LiveData<ResponseLogoutDataModel?>
         get() = _userLogoutResponseLiveData
 
     private val _responseTeacherDashBoard = MutableLiveData<ResponseTeacherDashboardDataModel?>()
@@ -106,7 +108,7 @@ class UserRepository(private val userApi: UserApi) {
         }
     }
 
-    suspend fun userLogout(accessTokens: String, refreshToken: String) {
+    suspend fun userLogout(accessTokens: String, refreshToken: LogoutDataModel) {
         val result = userApi.logout(accessTokens, refreshToken)
         if (result.isSuccessful && result.body() != null) {
             _userLogoutResponseLiveData.postValue(result.body())
@@ -127,8 +129,7 @@ class UserRepository(private val userApi: UserApi) {
     }
 
     suspend fun teacherAddSubjectData(
-        accessTokens: String,
-        subjectName: TeacherAddSubjectDataModel
+        accessTokens: String, subjectName: TeacherAddSubjectDataModel
     ) {
         val result = userApi.teacherAddSubject(accessTokens, subjectName)
         if (result.isSuccessful && result.body() != null) {
@@ -174,9 +175,7 @@ class UserRepository(private val userApi: UserApi) {
     }
 
     suspend fun addSubjectQuestion(
-        accessTokens: String,
-        subjectName: String,
-        question: RequestAddQuizQuestion
+        accessTokens: String, subjectName: String, question: RequestAddQuizQuestion
     ) {
         val result = userApi.addSubjectQuestion(accessTokens, subjectName, question)
         if (result.isSuccessful && result.body() != null) {
@@ -214,9 +213,7 @@ class UserRepository(private val userApi: UserApi) {
     }
 
     suspend fun getQuizQuestionStudent(
-        accessTokens: String,
-        subjectName: String,
-        quizName: String
+        accessTokens: String, subjectName: String, quizName: String
     ) {
         val result = userApi.getQuizQuestionStudent(accessTokens, subjectName, quizName)
         if (result.isSuccessful && result.body() != null) {

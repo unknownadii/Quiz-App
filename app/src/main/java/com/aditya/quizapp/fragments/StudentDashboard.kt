@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -19,13 +20,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aditya.quizapp.R
 import com.aditya.quizapp.adapters.StudentDashboardAdapter
 import com.aditya.quizapp.api.UserApi
 import com.aditya.quizapp.databinding.FragmentStudentDashboardBinding
+import com.aditya.quizapp.models.logoutDataModel.LogoutDataModel
 import com.aditya.quizapp.repository.UserRepository
+import com.aditya.quizapp.utils.Constants.navigateSafe
 import com.aditya.quizapp.viewModels.AuthViewModel
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.example.quizapplication.viewModels.AuthViewModelFactory
@@ -40,7 +44,6 @@ class StudentDashboard : Fragment(), OnItemClickListener {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var navController: NavController
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -53,7 +56,14 @@ class StudentDashboard : Fragment(), OnItemClickListener {
         viewModel =
             ViewModelProvider(this, AuthViewModelFactory(repository))[AuthViewModel::class.java]
 
-        navController = findNavController()
+        //navController = findNavController()
+
+//        navController =
+//            Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
+//        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+//            Log.e("FragmentDestination", "onDestinationChanged: " + destination.label)
+//
+//        }
         return binding.root
     }
 
@@ -71,18 +81,6 @@ class StudentDashboard : Fragment(), OnItemClickListener {
         toggle.syncState()
         binding.tbStudentDashboard.toolbar.title = "Quiz App"
 
-        //handling click for content inside drawer layout
-        binding.navViewStudentDash.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.userProfile -> {
-                    Toast.makeText(requireActivity(), "Profile", Toast.LENGTH_SHORT).show()
-                }
-                R.id.userLogout -> {
-                    viewModel.logoutUser("Bearer $accessTokens", refreshTokens)
-                }
-            }
-            true
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,23 +98,44 @@ class StudentDashboard : Fragment(), OnItemClickListener {
         } catch (e: Exception) {
             Snackbar.make(binding.root, e.message.toString(), Snackbar.LENGTH_SHORT).show()
         }
-        setUpLogoutObserver()
 
+        //handling click for content inside drawer layout
+        binding.navViewStudentDash.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.userProfile -> {
+                    Toast.makeText(requireActivity(), "Profile", Toast.LENGTH_SHORT).show()
+                }
+                R.id.userLogout -> {
+                    viewModel.logoutUser("Bearer $accessTokens", LogoutDataModel(refreshTokens))
+                }
+            }
+            true
+        }
+        try {
+            setUpLogoutObserver()
+        } catch (e: Exception) {
+            Snackbar.make(binding.root, e.message.toString(), Snackbar.LENGTH_SHORT).show()
+        }
         binding.btnLeaderBoard.setOnClickListener {
             findNavController().navigate(R.id.action_studentDashboard_to_leaderBoardFragment)
         }
     }
+
     private fun setUpLogoutObserver() {
         viewModel.userLogoutResponseLiveData.observe(requireActivity()) {
-            if (it == null) {
-                sharePref.edit().remove(getString(R.string.refresh_token))
-                    .apply()
-                sharePref.edit().remove(getString(R.string.access_token)).apply()
-                sharePref.edit().remove(getString(R.string.person_type)).apply()
-                Toast.makeText(requireActivity(), "Logging Out", Toast.LENGTH_SHORT).show()
-                navController.navigate(R.id.action_studentDashboard_to_splashFragment)
-//                navController?.navigateUp()
-//                navController?.navigate(R.id.action_studentDashboard_to_splashFragment)
+            if (it != null) {
+                val sharedPreferences = sharePref.edit()
+                sharedPreferences.clear()
+                sharedPreferences.commit()
+                Toast.makeText(requireActivity(), "Logged Out", Toast.LENGTH_SHORT).show()
+//                findNavController().navigate(R.id.action_studentDashboard_to_splashFragment)
+                findNavController().navigateSafe(R.id.action_studentDashboard_to_splashFragment)
+                /* .navigate(R.id.action_studentDashboard_to_splashFragment)
+                  navController?.navigateUp()
+              navController?.navigate(R.id.action_studentDashboard_to_splashFragment)
+                 */
+            } else {
+                Snackbar.make(binding.root, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
             }
         }
     }

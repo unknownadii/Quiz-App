@@ -11,6 +11,8 @@ import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationD
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.aditya.quizapp.repository.UserRepository
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.logoutDataModel.LogoutDataModel
+import com.aditya.quizapp.models.logoutDataModel.ResponseLogoutDataModel
 import com.aditya.quizapp.models.responseLeaderboardScore.ResponseLeaderBoardScore
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
@@ -29,7 +31,7 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     val userLoginResponseLiveData: LiveData<AuthenticationResponseDataModel?>
         get() = userRepository.userLoginResponseLiveData
 
-    val userLogoutResponseLiveData: LiveData<Any?>
+    val userLogoutResponseLiveData: LiveData<ResponseLogoutDataModel?>
         get() = userRepository.userLogoutResponseLiveData
 
     val responseTeacherDashboardLiveData: LiveData<ResponseTeacherDashboardDataModel?>
@@ -83,7 +85,7 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
-    fun logoutUser(accessToken: String, refreshToken: String) {
+    fun logoutUser(accessToken: String, refreshToken: LogoutDataModel) {
         viewModelScope.launch {
             userRepository.userLogout(accessToken, refreshToken)
         }
