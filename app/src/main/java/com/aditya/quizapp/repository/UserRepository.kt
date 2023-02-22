@@ -10,11 +10,14 @@ import com.aditya.quizapp.models.addQuestionsToQuiz.response.ResponseAddQuizQues
 import com.aditya.quizapp.models.addSubjectTeacher.request.TeacherAddSubjectDataModel
 import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTeacherDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.responseLeaderboardScore.ResponseLeaderBoardScore
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
 import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
 import com.aditya.quizapp.models.subjectQuestion.ResponseSubjectQuestion
 import com.aditya.quizapp.models.submitQuestionStudent.ResponseSubmitQuizStudent
+import com.aditya.quizapp.models.submitQuizQuestion.Request.RequestSubmitQuizQuestion
+import com.aditya.quizapp.models.submitQuizQuestion.Response.ResponseSubmittedQuizQuestions
 import com.aditya.quizapp.models.viewSubjectQuiz.ResponseViewSubjectQuiz
 
 class UserRepository(private val userApi: UserApi) {
@@ -67,6 +70,22 @@ class UserRepository(private val userApi: UserApi) {
     private val _responseStudentQuizQuestion = MutableLiveData<ResponseSubmitQuizStudent?>()
     val responseStudentQuizQuestion: LiveData<ResponseSubmitQuizStudent?>
         get() = _responseStudentQuizQuestion
+
+    private val _responseSubmitQuizQuestion = MutableLiveData<ResponseSubmittedQuizQuestions?>()
+    val responseSubmitQuizQuestion: LiveData<ResponseSubmittedQuizQuestions?>
+        get() = _responseSubmitQuizQuestion
+
+    private val _responseLeaderBoard = MutableLiveData<StudentDashboardModel?>()
+    val responseLeaderBoard: LiveData<StudentDashboardModel?>
+        get() = _responseLeaderBoard
+
+    private val _responseLeaderBoardQuiz = MutableLiveData<StudentDashboardModel?>()
+    val responseLeaderBoardQuiz: LiveData<StudentDashboardModel?>
+        get() = _responseLeaderBoardQuiz
+
+    private val _responseLeaderBoardScore = MutableLiveData<ResponseLeaderBoardScore?>()
+    val responseLeaderBoardScore: LiveData<ResponseLeaderBoardScore?>
+        get() = _responseLeaderBoardScore
 
     suspend fun userResister(userRequest: UserRegisterRequest) {
         val result = userApi.signUp(userRequest)
@@ -197,10 +216,9 @@ class UserRepository(private val userApi: UserApi) {
     suspend fun getQuizQuestionStudent(
         accessTokens: String,
         subjectName: String,
-        quizName: String,
-        page: Int
+        quizName: String
     ) {
-        val result = userApi.getQuizQuestionStudent(accessTokens, subjectName, quizName, page)
+        val result = userApi.getQuizQuestionStudent(accessTokens, subjectName, quizName)
         if (result.isSuccessful && result.body() != null) {
             _responseStudentQuizQuestion.postValue(result.body())
         } else if (!result.isSuccessful && result.body() != null) {
@@ -209,4 +227,66 @@ class UserRepository(private val userApi: UserApi) {
             _responseStudentQuizQuestion.postValue(null)
         }
     }
+
+    suspend fun submitQuizQuestionStudent(
+        accessTokens: String,
+        subjectName: String,
+        quizName: String,
+        answerList: RequestSubmitQuizQuestion
+    ) {
+        val result =
+            userApi.submitQuizQuestionStudent(accessTokens, subjectName, quizName, answerList)
+        if (result.isSuccessful && result.body() != null) {
+            _responseSubmitQuizQuestion.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseSubmitQuizQuestion.postValue(result.body())
+        } else {
+            _responseSubmitQuizQuestion.postValue(null)
+        }
+    }
+
+    suspend fun getLeaderBoard(
+        accessTokens: String
+    ) {
+        val result = userApi.getLeaderBoard(accessTokens)
+        if (result.isSuccessful && result.body() != null) {
+            _responseLeaderBoard.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseLeaderBoard.postValue(result.body())
+        } else {
+            _responseLeaderBoard.postValue(null)
+        }
+    }
+
+    suspend fun getLeaderBoardQuiz(
+        accessTokens: String,
+        subjectName: String,
+    ) {
+        val result = userApi.getLeaderBoardQuiz(accessTokens, subjectName)
+        if (result.isSuccessful && result.body() != null) {
+            _responseLeaderBoardQuiz.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseLeaderBoardQuiz.postValue(result.body())
+        } else {
+            _responseLeaderBoardQuiz.postValue(null)
+        }
+    }
+
+    suspend fun getLeaderBoardScore(
+        accessTokens: String,
+        subjectName: String,
+        quizName: String,
+    ) {
+        val result = userApi.getLeaderBoardScore(accessTokens, subjectName, quizName)
+        if (result.isSuccessful && result.body() != null) {
+            _responseLeaderBoardScore.postValue(result.body())
+        } else if (result.code() == 400 || result.body()?.data.isNullOrEmpty()) {
+            _responseLeaderBoardScore.postValue(result.body())
+        } else if (!result.isSuccessful && result.body() != null) {
+            _responseLeaderBoardScore.postValue(result.body())
+        } else {
+            _responseLeaderBoardScore.postValue(null)
+        }
+    }
+
 }

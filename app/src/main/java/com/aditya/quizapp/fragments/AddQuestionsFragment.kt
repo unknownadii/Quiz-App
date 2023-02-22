@@ -57,10 +57,10 @@ class AddQuestionsFragment : Fragment() {
         accessTokens = sharePref.getString(getString(R.string.access_token), null).toString()
         subjectName = arguments?.getString("SubjectName").toString()
 
-        binding.toolbar.btnBack.setOnClickListener {
+        binding.tbAddQuestion.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
-        binding.toolbar.btnUploadQuestion.setOnClickListener {
+        binding.tbAddQuestion.btnUploadQuestion.setOnClickListener {
 //            if (questionsList.size < 5) {
 //                Snackbar.make(
 //                    binding.root,

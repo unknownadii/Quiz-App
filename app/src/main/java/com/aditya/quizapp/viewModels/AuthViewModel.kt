@@ -11,11 +11,14 @@ import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationD
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.aditya.quizapp.repository.UserRepository
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.responseLeaderboardScore.ResponseLeaderBoardScore
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
 import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
 import com.aditya.quizapp.models.subjectQuestion.ResponseSubjectQuestion
 import com.aditya.quizapp.models.submitQuestionStudent.ResponseSubmitQuizStudent
+import com.aditya.quizapp.models.submitQuizQuestion.Request.RequestSubmitQuizQuestion
+import com.aditya.quizapp.models.submitQuizQuestion.Response.ResponseSubmittedQuizQuestions
 import com.aditya.quizapp.models.viewSubjectQuiz.ResponseViewSubjectQuiz
 import kotlinx.coroutines.launch
 
@@ -55,6 +58,18 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     val responseStudentQuizQuestionLiveData: LiveData<ResponseSubmitQuizStudent?>
         get() = userRepository.responseStudentQuizQuestion
+
+    val responseSubmitQuizQuestionLiveData: LiveData<ResponseSubmittedQuizQuestions?>
+        get() = userRepository.responseSubmitQuizQuestion
+
+    val responseLeaderBoardLiveData: LiveData<StudentDashboardModel?>
+        get() = userRepository.responseLeaderBoard
+
+    val responseLeaderBoardQuizLiveData: LiveData<StudentDashboardModel?>
+        get() = userRepository.responseLeaderBoardQuiz
+
+    val responseLeaderBoardScoreLiveData: LiveData<ResponseLeaderBoardScore?>
+        get() = userRepository.responseLeaderBoardScore
 
     fun registerUser(userRequest: UserRegisterRequest) {
         viewModelScope.launch {
@@ -130,11 +145,44 @@ class AuthViewModel(private val userRepository: UserRepository) : ViewModel() {
     fun getStudentQuizQuestion(
         accessToken: String,
         subjectName: String,
-        quizName: String,
-        page: Int
+        quizName: String
     ) {
         viewModelScope.launch {
-            userRepository.getQuizQuestionStudent(accessToken, subjectName, quizName, page)
+            userRepository.getQuizQuestionStudent(accessToken, subjectName, quizName)
+        }
+    }
+
+    fun submitStudentQuizQuestion(
+        accessToken: String,
+        subjectName: String,
+        quizName: String,
+        answersList: RequestSubmitQuizQuestion
+    ) {
+        viewModelScope.launch {
+            userRepository.submitQuizQuestionStudent(
+                accessToken,
+                subjectName,
+                quizName,
+                answersList
+            )
+        }
+    }
+
+    fun getLeaderBoard(accessToken: String) {
+        viewModelScope.launch {
+            userRepository.getLeaderBoard(accessToken)
+        }
+    }
+
+    fun getLeaderBoardQuiz(accessToken: String, subjectName: String) {
+        viewModelScope.launch {
+            userRepository.getLeaderBoardQuiz(accessToken, subjectName)
+        }
+    }
+
+    fun getLeaderBoardScore(accessToken: String, subjectName: String, quizName: String) {
+        viewModelScope.launch {
+            userRepository.getLeaderBoardScore(accessToken, subjectName, quizName)
         }
     }
 }

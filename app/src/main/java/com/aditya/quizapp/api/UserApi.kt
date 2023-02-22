@@ -7,11 +7,14 @@ import com.aditya.quizapp.models.addSubjectTeacher.response.ResponseAddSubjectTe
 import com.aditya.quizapp.models.loginAndRegister.request.RequestAuthenticationDataModel
 import com.aditya.quizapp.models.loginAndRegister.response.AuthenticationResponseDataModel
 import com.aditya.quizapp.models.loginAndRegister.request.UserRegisterRequest
+import com.aditya.quizapp.models.responseLeaderboardScore.ResponseLeaderBoardScore
 import com.aditya.quizapp.models.responseTeacherDashboard.ResponseTeacherDashboardDataModel
 import com.aditya.quizapp.models.studentDashboardModel.StudentDashboardModel
 import com.aditya.quizapp.models.subjectChoiceTeacher.ResponseSubjectChoice
 import com.aditya.quizapp.models.subjectQuestion.ResponseSubjectQuestion
 import com.aditya.quizapp.models.submitQuestionStudent.ResponseSubmitQuizStudent
+import com.aditya.quizapp.models.submitQuizQuestion.Request.RequestSubmitQuizQuestion
+import com.aditya.quizapp.models.submitQuizQuestion.Response.ResponseSubmittedQuizQuestions
 import com.aditya.quizapp.models.viewSubjectQuiz.ResponseViewSubjectQuiz
 import retrofit2.Response
 import retrofit2.http.*
@@ -83,7 +86,31 @@ interface UserApi {
         @Header("Authorization") accessTokens: String,
         @Path("subjectName") subjectName: String,
         @Path("quizName") quizName: String,
-        @Query("page") page: Int
     ): Response<ResponseSubmitQuizStudent>
 
+    @POST("/startQuiz/{subjectName}/{quizName}/")
+    suspend fun submitQuizQuestionStudent(
+        @Header("Authorization") accessTokens: String,
+        @Path("subjectName") subjectName: String,
+        @Path("quizName") quizName: String,
+        @Body answerList: RequestSubmitQuizQuestion
+    ): Response<ResponseSubmittedQuizQuestions>
+
+    @GET("/leaderboard")
+    suspend fun getLeaderBoard(
+        @Header("Authorization") accessTokens: String
+    ): Response<StudentDashboardModel>
+
+    @GET("/startQuiz/{subjectName}")
+    suspend fun getLeaderBoardQuiz(
+        @Header("Authorization") accessTokens: String,
+        @Path("subjectName") subjectName: String,
+    ): Response<StudentDashboardModel>
+
+    @GET("/leaderboard/{subjectName}/{quizName}")
+    suspend fun getLeaderBoardScore(
+        @Header("Authorization") accessTokens: String,
+        @Path("subjectName") subjectName: String,
+        @Path("quizName") quizName: String,
+    ): Response<ResponseLeaderBoardScore>
 }

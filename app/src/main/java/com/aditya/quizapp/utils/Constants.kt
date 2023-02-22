@@ -9,7 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 
 object Constants {
     const val TAG = "QUIZCODE"
-    const val BASE_URl: String = "https://9dc8-182-69-181-150.in.ngrok.io"
+    const val BASE_URl: String = "https://f28f-182-69-180-30.in.ngrok.io"
     fun checkEmail(view: AppCompatEditText): Boolean {
         // Getting the user input
         if (view.text.isNullOrEmpty()) // check if user have not entered then ask for enter
@@ -23,6 +23,7 @@ object Constants {
         }
         return true
     }
+
     fun getToken(activity: Activity): String? {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE)
         val accessToken = sharedPref?.getString(R.string.access_token.toString(), null)

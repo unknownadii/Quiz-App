@@ -81,6 +81,9 @@ class TeacherDashboardFragment : Fragment() {
         binding.btnAddSubject.setOnClickListener {
             showBottomSheetDialog()
         }
+        binding.btnLeaderBoard.setOnClickListener {
+            findNavController().navigate(R.id.action_teacherDashboardFragment_to_leaderBoardFragment)
+        }
         setUpTeacherDashBoardObserver()
         setUpLogoutObserver()
     }
@@ -187,14 +190,14 @@ class TeacherDashboardFragment : Fragment() {
         toggle = ActionBarDrawerToggle(
             activity,
             binding.drawerLayout,
-            binding.toolbar.toolbar,
+            binding.tbTeacherDashboard.toolbar,
             R.string.open,
             R.string.close
         )
 
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-        binding.toolbar.toolbar.title = "Quiz App"
+        binding.tbTeacherDashboard.toolbar.title = "Quiz App"
 
         //handling click for content inside drawer layout
         binding.navViewTeacherDash.setNavigationItemSelectedListener {

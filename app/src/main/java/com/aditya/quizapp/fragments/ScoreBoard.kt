@@ -12,7 +12,6 @@ import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import com.aditya.quizapp.R
 import com.aditya.quizapp.databinding.FragmentScoreBoardBinding
-
 class ScoreBoard : Fragment() {
     private lateinit var binding: FragmentScoreBoardBinding
     override fun onCreateView(

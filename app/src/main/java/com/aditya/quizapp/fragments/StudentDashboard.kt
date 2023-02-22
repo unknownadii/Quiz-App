@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aditya.quizapp.R
@@ -36,6 +38,7 @@ class StudentDashboard : Fragment(), OnItemClickListener {
     private lateinit var refreshTokens: String
     private lateinit var sharePref: SharedPreferences
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var navController: NavController
 
 
     override fun onCreateView(
@@ -49,6 +52,8 @@ class StudentDashboard : Fragment(), OnItemClickListener {
         setUpNavigationDrawer()
         viewModel =
             ViewModelProvider(this, AuthViewModelFactory(repository))[AuthViewModel::class.java]
+
+        navController = findNavController()
         return binding.root
     }
 
@@ -96,17 +101,22 @@ class StudentDashboard : Fragment(), OnItemClickListener {
             Snackbar.make(binding.root, e.message.toString(), Snackbar.LENGTH_SHORT).show()
         }
         setUpLogoutObserver()
-    }
 
+        binding.btnLeaderBoard.setOnClickListener {
+            findNavController().navigate(R.id.action_studentDashboard_to_leaderBoardFragment)
+        }
+    }
     private fun setUpLogoutObserver() {
         viewModel.userLogoutResponseLiveData.observe(requireActivity()) {
             if (it == null) {
-                findNavController().navigate(R.id.action_studentDashboard_to_splashFragment)
                 sharePref.edit().remove(getString(R.string.refresh_token))
                     .apply()
                 sharePref.edit().remove(getString(R.string.access_token)).apply()
                 sharePref.edit().remove(getString(R.string.person_type)).apply()
                 Toast.makeText(requireActivity(), "Logging Out", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.action_studentDashboard_to_splashFragment)
+//                navController?.navigateUp()
+//                navController?.navigate(R.id.action_studentDashboard_to_splashFragment)
             }
         }
     }

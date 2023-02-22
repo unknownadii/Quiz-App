@@ -8,96 +8,90 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aditya.quizapp.R
-import com.aditya.quizapp.adapters.ViewSubjectQuizAdapter
+import com.aditya.quizapp.adapters.StudentDashboardAdapter
 import com.aditya.quizapp.api.UserApi
-import com.aditya.quizapp.databinding.FragmentViewSubjectQuizBinding
+import com.aditya.quizapp.databinding.FragmentLeaderBoardBinding
+import com.aditya.quizapp.databinding.FragmentLeaderBoardQuizBinding
 import com.aditya.quizapp.repository.UserRepository
 import com.aditya.quizapp.viewModels.AuthViewModel
 import com.example.quizapplication.retrofit.RetrofitHelper
 import com.example.quizapplication.viewModels.AuthViewModelFactory
 import com.google.android.material.snackbar.Snackbar
-import javax.security.auth.Subject
 
-class ViewSubjectQuizFragment : Fragment() {
-
-    private lateinit var binding: FragmentViewSubjectQuizBinding
+class LeaderBoardQuizFragment : Fragment() {
+    private lateinit var binding: FragmentLeaderBoardQuizBinding
     private lateinit var viewModel: AuthViewModel
-    private lateinit var sharePref: SharedPreferences
     private lateinit var accessTokens: String
+    private lateinit var sharePref: SharedPreferences
     private lateinit var subjectName: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentViewSubjectQuizBinding.inflate(layoutInflater)
+        // Inflate the layout for this fragment
+        binding = FragmentLeaderBoardQuizBinding.inflate(layoutInflater)
 
         subjectName = arguments?.getString("SubjectName").toString()
-        binding.tbViewSub.tvToolbarTitle.text = "$subjectName Quizzes"
+        binding.tbLeaderBoardQuiz.tvToolbarTitle.text = "$subjectName LeaderBoard"
 
         val interfaceApi = RetrofitHelper.getInstance().create(UserApi::class.java)
         val repository = UserRepository(interfaceApi)
         viewModel =
             ViewModelProvider(this, AuthViewModelFactory(repository))[AuthViewModel::class.java]
-        binding.shimmerViewQuizTeacher.startShimmer()
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.tbViewSub.ivBackBtnToolbar.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        binding.rvViewQuizTeacher.layoutManager = LinearLayoutManager(requireActivity())
-
         sharePref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
         accessTokens = sharePref.getString(getString(R.string.access_token), null).toString()
+
+        binding.shimmerViewLeaderBoardQuiz.startShimmer()
+        binding.rvLeaderBoardQuiz.layoutManager = LinearLayoutManager(requireActivity())
+
+        binding.tbLeaderBoardQuiz.ivBackBtnToolbar.setOnClickListener {
+            findNavController().popBackStack()
+        }
         try {
-            viewModel.getSubjectQuiz("Bearer $accessTokens", subjectName)
-            getSubjectQuizObserver()
+            viewModel.getLeaderBoardQuiz("Bearer $accessTokens", subjectName)
+            setUpLeaderBoardQuizObserver()
         } catch (e: Exception) {
             Snackbar.make(binding.root, e.message.toString(), Snackbar.LENGTH_SHORT).show()
         }
     }
 
-    private fun getSubjectQuizObserver() {
-        viewModel.responseViewSubjectQuizLiveData.observe(requireActivity()) {
+    private fun setUpLeaderBoardQuizObserver() {
+        viewModel.responseLeaderBoardQuizLiveData.observe(requireActivity()) { it ->
             if (!it?.data.isNullOrEmpty()) {
                 val adapter =
-                    ViewSubjectQuizAdapter(it!!.data, onItemClick = { position, quizName ->
+                    StudentDashboardAdapter(it!!.data, onItemClick = { position, quizName ->
                         val bundle = Bundle()
-                        bundle.putString("SubjectName", subjectName)
                         bundle.putString("QuizName", quizName)
+                        bundle.putString("SubjectName", subjectName)
                         findNavController().navigate(
-                            R.id.action_viewSubjectQuizFragment_to_quizQuestionFragment,
+                            R.id.action_leaderBoardQuizFragment_to_leaderBoardScoreFragment,
                             bundle
                         )
                     })
-                binding.rvViewQuizTeacher.adapter = adapter
-                binding.noSubjectQuiz.visibility = View.GONE
-                binding.shimmerViewQuizTeacher.stopShimmer()
-                binding.shimmerViewQuizTeacher.visibility = View.GONE
-                binding.rvViewQuizTeacher.visibility = View.VISIBLE
-
+                binding.rvLeaderBoardQuiz.adapter = adapter
+                binding.rvLeaderBoardQuiz.visibility = View.VISIBLE
             } else if (it?.data == null || it.data.isEmpty()) {
-                binding.llContainerViewSubQuiz.visibility = View.GONE
+                binding.llContainerLeaderBoardQuiz.visibility = View.GONE
                 binding.noSubjectQuiz.visibility = View.VISIBLE
-                binding.shimmerViewQuizTeacher.stopShimmer()
             } else {
-                Snackbar.make(binding.root, "Something Went Wrong", Snackbar.LENGTH_SHORT).show()
-                binding.llContainerViewSubQuiz.visibility = View.GONE
+                Snackbar.make(binding.root, "Something went wrong", Snackbar.LENGTH_SHORT).show()
+                binding.llContainerLeaderBoardQuiz.visibility = View.GONE
                 binding.noSubjectQuiz.visibility = View.VISIBLE
                 binding.noSubjectQuiz.text = "Failed To Fetch Data"
-                binding.shimmerViewQuizTeacher.stopShimmer()
             }
+            binding.shimmerViewLeaderBoardQuiz.stopShimmer()
+            binding.shimmerViewLeaderBoardQuiz.visibility = View.GONE
         }
     }
+
 }
